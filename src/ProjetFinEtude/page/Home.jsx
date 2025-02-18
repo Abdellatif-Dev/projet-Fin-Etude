@@ -70,7 +70,6 @@ export default function Home() {
                                 className="w-80 h-full  bg-yellow-400 flex justify-center  items-center "
                                 style={{
                                     clipPath: 'polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%)',
-
                                 }}
                             >
                                 <h1 className=' text-7xl rotate-[-1.41rad]  font-extrabold text-slate-900 text-nowrap '>Contactez-nous</h1>
@@ -79,10 +78,10 @@ export default function Home() {
                     </div>
                     <div className="col-span-4 flex items-center justify-center ">
                         <div className=" w-full h-3/5 mx-20 pt-14 ">
-                        <input type="text" className=' block w-full h-12 pl-5  rounded-3xl'  placeholder='Entrez votre nom' />
-                        <input type="text"  className=' block w-full mt-10 h-12 pl-5  rounded-3xl' placeholder='Entrez votre E-mail' />
-                        <textarea  className=' block w-full mt-10  pl-5  rounded-3xl' rows={7} placeholder='Entrez votre Message'></textarea>
-                        <button className=' border-2 border-yellow-500 rounded-3xl text-2xl py-2 px-4 mt-10 text-white hover:bg-yellow-400 hover:border-white hover:text-black hover:drop-shadow-2xl hover:shadow-yellow-500 hover:shadow-[0_0px_35px_rgba(0,0,0,1)]'>Soumettre</button>
+                            <input type="text" className=' block w-full h-12 pl-5  rounded-3xl' placeholder='Entrez votre nom' />
+                            <input type="text" className=' block w-full mt-10 h-12 pl-5  rounded-3xl' placeholder='Entrez votre E-mail' />
+                            <textarea className=' block w-full mt-10  pl-5  rounded-3xl' rows={7} placeholder='Entrez votre Message'></textarea>
+                            <button className=' border-2 border-yellow-500 rounded-3xl text-2xl py-2 px-4 mt-10 text-white hover:bg-yellow-400 hover:border-white hover:text-black hover:drop-shadow-2xl hover:shadow-yellow-500 hover:shadow-[0_0px_35px_rgba(0,0,0,1)]'>Soumettre</button>
                         </div>
                     </div>
                 </div>

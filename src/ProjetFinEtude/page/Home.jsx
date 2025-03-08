@@ -51,7 +51,7 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className='h-screen bg-slate-900'>
+            <section className='h-svh bg-slate-900'>
                 <div className="grid grid-cols-8 h-full">
                     <div className="col-span-3">
                         <div className="flex items-center h-full mx-10 ">

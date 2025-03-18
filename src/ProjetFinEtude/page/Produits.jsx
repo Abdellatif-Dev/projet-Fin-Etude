@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IoSearchOutline } from "react-icons/io5";
 import { FaPencil,FaTrashCan } from "react-icons/fa6";
 
-export default function Profile() {
+export default function Produits() {
     const [Ajouter, setAjo] = useState(true)
     const [Supprimer, setSep] = useState(false)
     const [Modifier, setMod] = useState(false)
@@ -11,9 +11,9 @@ export default function Profile() {
             <p className=' text-3xl font-serif font-bold '>Bonjour XXX</p>
             <div className="mt-3 w-full  ">
                 <div className="flex space-x-6">
-                    <button onClick={() => (setAjo(true), setMod(false), setSep(false))} className={` font-serif font-medium border-b-2 text-xl h-10 ${Ajouter ? '  border-violet-700 text-violet-600 hover:text-violet-900 hover:border-violet-900' : 'text-black hover:text-gray-800'}`}>Ajouter un nouveau plat </button>
-                    <button onClick={() => (setAjo(false), setMod(true), setSep(false))} className={` font-serif font-medium border-b-2 text-xl h-10 ${Modifier ? '  border-violet-700 text-violet-600 hover:text-violet-900 hover:border-violet-900' : 'text-black hover:text-gray-800'}`}>Modifier le plat </button>
-                    <button onClick={() => (setAjo(false), setMod(false), setSep(true))} className={` font-serif font-medium border-b-2 text-xl h-10 ${Supprimer ? '  border-violet-700 text-violet-600 hover:text-violet-900 hover:border-violet-900' : 'text-black hover:text-gray-800'}`}>Supprimer le plat </button>
+                    <button onClick={() => {setAjo(true);setMod(false); setSep(false)}} className={` font-serif font-medium border-b-2 text-xl h-10 ${Ajouter ? '  border-violet-700 text-violet-600 hover:text-violet-900 hover:border-violet-900' : 'text-black hover:text-gray-800'}`}>Ajouter un nouveau plat </button>
+                    <button onClick={() => {setAjo(false); setMod(true); setSep(false)}} className={` font-serif font-medium border-b-2 text-xl h-10 ${Modifier ? '  border-violet-700 text-violet-600 hover:text-violet-900 hover:border-violet-900' : 'text-black hover:text-gray-800'}`}>Modifier le plat </button>
+                    <button onClick={() => {setAjo(false); setMod(false); setSep(true)}} className={` font-serif font-medium border-b-2 text-xl h-10 ${Supprimer ? '  border-violet-700 text-violet-600 hover:text-violet-900 hover:border-violet-900' : 'text-black hover:text-gray-800'}`}>Supprimer le plat </button>
                     {(Supprimer || Modifier) && (
                         <div className="relative h-10 flex items-center">
                             <input

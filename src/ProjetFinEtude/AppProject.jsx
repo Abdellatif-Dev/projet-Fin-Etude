@@ -5,6 +5,7 @@ import Home from './page/Home'
 import Menu from './page/Menu'
 import Dashboard from './page/Dashboard'
 import ValiderPaiement from './page/ValiderPaiement'
+import Detai from './page/Detai'
 
 export default function AppProject() {
   const [tableC,setTable]=useState([])
@@ -19,6 +20,7 @@ export default function AppProject() {
         <Route path='/' element={<Home/>}/>
         <Route path='/Menu' element={<Menu tabComm={Command}/>}/>
         <Route path='/dashbord' element={<Dashboard/>}/>
+        <Route path='/detai/:id' element={<Detai/>}/>
         <Route path='/Valide' element={<ValiderPaiement TabComm={tableC}/>}/>
         <Route path='/About' element={<h1>about us</h1>}/>
         <Route path='/Login' element={<h1>login</h1>}/>

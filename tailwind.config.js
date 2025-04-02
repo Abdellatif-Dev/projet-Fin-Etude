@@ -12,7 +12,8 @@ module.exports = {
         },
       },
       animation: {
-        scrollX: 'scrollX 10s linear infinite',
+        scrollX: 'scrollX 20s linear infinite',
+        scrollX1: 'scrollX 15s linear infinite',
       },
     },
   },

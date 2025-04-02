@@ -11,46 +11,19 @@ export default function NavBar() {
     return (
         <div className=' h-svh  absolute z-20'>
             <div className='    '>
-                <div className='h-14  bg-slate-950 w-full fixed flex justify-between '>
+                <div className='h-14  bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 w-full fixed flex justify-between '>
                     <div className="flex justify-center items-center h-14 mx-5">
                         <img src="DawQ.png" alt="" className='h-10' />
                     </div>
                     <div className="flex justify-around items-center h-14 w-1/2">
-                        {/* Changed all Links to NavLinks */}
-                        <NavLink
-                            to='/'
-                            className={({ isActive }) =>
-                                `text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'
-                                }`
-                            }
-                        >
-                            Home
-                        </NavLink>
+                        <NavLink to='/' className={({ isActive }) =>`text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}>Home</NavLink>
 
-                        <NavLink
-                            to='/Menu'
-                            className={({ isActive }) =>
-                                `text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'
-                                }`
-                            }
-                        >
-                            Menu
-                        </NavLink>
+                        <NavLink to='/Menu' className={({ isActive }) =>`text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}> Menu</NavLink>
 
-                        <NavLink
-                            to='/About'
-                            className={({ isActive }) =>
-                                `text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'
-                                }`
-                            }
-                        >
-                            About us
-                        </NavLink>
+                        <NavLink to='/About'className={({ isActive }) =>`text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}>About us</NavLink>
                         <button
                             onClick={() => setLogin(true)}
-                            className={`text-2xl hover:text-yellow-300 active:text-yellow-500 ${login ? 'text-yellow-300' : 'text-white'
-                                }`}
-                        >
+                            className={`text-2xl hover:text-yellow-300 active:text-yellow-500 ${login ? 'text-yellow-300' : 'text-white'}`}>
                             Login
                         </button>
                     </div>

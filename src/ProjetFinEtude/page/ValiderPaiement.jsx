@@ -33,9 +33,10 @@ export default function ValiderPaiement(props) {
                             <table className=' w-full mx-auto bg-slate-300 border-collapse  '>
                                 <thead >
                                     <tr >
-                                        <td className='w-1/4'>Photo</td>
-                                        <td className='w-2/4'>Nom</td>
-                                        <td className='w-1/4'>Prix</td>
+                                        <td className='w-1/5'>Photo</td>
+                                        <td className='w-2/5'>Nom</td>
+                                        <td className='w-1/5'>quantity</td>
+                                        <td className='w-1/5'>Prix</td>
                                     </tr>
                                 </thead>
                             </table>
@@ -45,16 +46,17 @@ export default function ValiderPaiement(props) {
                                 <tbody>
                                     {props.TabComm.map((x, y) => (
                                         <tr key={y} className='odd:bg-slate-300 border-b border-gray-400 '>
-                                            <td className='w-1/4'><img src={x.image} alt={x.nomPlat} width={50} height={50} /></td>
-                                            <td className='w-2/4'>{x.nomPlat}</td>
-                                            <td className='w-1/4'>{x.quantity * x.prix}</td>
+                                            <td className='w-1/5'><img src={x.image_url} alt={x.name} className='w-12 h-12 object-cover'  /></td>
+                                            <td className='w-2/5'>{x.name}</td>
+                                            <td className='w-1/5'>{x.quantity }</td>
+                                            <td className='w-1/5'>{x.quantity * x.price}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
                         <div className="text-center text-xl font-bold  h-[30px]">
-                            Total: {props.TabComm.reduce((acc, item) => acc + item.quantity * item.prix, 0).toFixed(2)} DH
+                            Total: {props.TabComm.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)} DH
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IoCloseSharp } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { Link, NavLink } from 'react-router-dom'  // Changed to NavLink
+import { Link, NavLink } from 'react-router-dom'
 export default function NavBar() {
     const [login, setLogin] = useState(false)
     const [client, setClient] = useState(false)
@@ -11,16 +11,16 @@ export default function NavBar() {
     return (
         <div className=' h-svh  absolute z-20'>
             <div className='    '>
-                <div className='h-14  bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 w-full fixed flex justify-between '>
+                <div className='h-14  bg-zinc-950 opacity-75 backdrop-blur-3xl w-full fixed flex justify-between '>
                     <div className="flex justify-center items-center h-14 mx-5">
                         <img src="DawQ.png" alt="" className='h-10' />
                     </div>
                     <div className="flex justify-around items-center h-14 w-1/2">
-                        <NavLink to='/' className={({ isActive }) =>`text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}>Home</NavLink>
+                        <NavLink to='/' className={({ isActive }) => `text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}>Home</NavLink>
 
-                        <NavLink to='/Menu' className={({ isActive }) =>`text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}> Menu</NavLink>
+                        <NavLink to='/Menu' className={({ isActive }) => `text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}> Menu</NavLink>
 
-                        <NavLink to='/About'className={({ isActive }) =>`text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}>About us</NavLink>
+                        <NavLink to='/About' className={({ isActive }) => `text-2xl hover:text-yellow-300 active:text-yellow-500 ${isActive & login === false ? 'text-yellow-300' : 'text-white'}`}>About us</NavLink>
                         <button
                             onClick={() => setLogin(true)}
                             className={`text-2xl hover:text-yellow-300 active:text-yellow-500 ${login ? 'text-yellow-300' : 'text-white'}`}>
@@ -29,7 +29,6 @@ export default function NavBar() {
                     </div>
                 </div>
                 {login && (
-
                     <div className="h-full fixed  ">
                         <div className=' h-full p-16 bg-slate-950 bg-opacity-85 w-dvw flex justify-center items-center '>
                             <div className=" mx-10 grid grid-cols-5 z-10 h-full w-full ">
@@ -62,7 +61,7 @@ export default function NavBar() {
                                         </div>
                                     </div>
                                     <div className="flex items-center h-1/5 justify-center ">
-                                        <button className='bg-gradient-to-br from-violet-700 via-violet-900 to-violet-950 rounded-full py-2 px-5 text-white font-serif text-2xl font-medium transition-all duration-500 hover:bg-gradient-to-tl hover:from-violet-700 hover:via-violet-800 hover:to-violet-950 active:scale-95  focus:ring-2 focus:ring-violet-500'>
+                                        <button className='text-2xl  bg-orange-500 text-2 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>
                                             Se Connecter
                                         </button>
                                     </div>
@@ -72,16 +71,16 @@ export default function NavBar() {
                                         <IoCloseSharp onClick={() => setLogin(false)} className='text-4xl font-bold text-black cursor-pointer' />
                                     </div>
                                     <div className=" w-full h-5/6 flex justify-center items-center ">
-                                    <div className=" w-full ">
-                                        <h1 className='text-center font-serif text-2xl text-white'>S'inscrire en tant que client</h1>
-                                        <div className="flex justify-center my-7 font-serif">
-                                        <button onClick={()=>(setClient(true),setLogin(false),setResto(false))} className='  border-2 border-white rounded-full text-2xl hover:scale-110 text-white py-2 px-5 '>S'inscrire</button>
+                                        <div className=" w-full ">
+                                            <h1 className='text-center font-serif text-2xl text-white'>S'inscrire en tant que client</h1>
+                                            <div className="flex justify-center my-7 font-serif">
+                                                <button onClick={() => {setClient(true); setLogin(false); setResto(false)}} className='  border-2 border-white rounded-full text-2xl hover:scale-110 hover:bg-white hover:text-orange-500 text-white py-2 px-5 '>S'inscrire</button>
+                                            </div>
+                                            <h1 className='text-center font-serif text-2xl text-white'>S'inscrire en tant que restaurateur</h1>
+                                            <div className="flex justify-center my-7 font-serif">
+                                                <button onClick={() => {setClient(false); setLogin(false); setResto(true)}} className='  border-2 border-white rounded-full text-2xl hover:scale-110 hover:bg-white hover:text-orange-500 text-white py-2 px-5 '>S'inscrire</button>
+                                            </div>
                                         </div>
-                                        <h1 className='text-center font-serif text-2xl text-white'>S'inscrire en tant que restaurateur</h1>
-                                        <div className="flex justify-center my-7 font-serif">
-                                        <button onClick={()=>(setClient(false),setLogin(false),setResto(true))} className='  border-2 border-white rounded-full text-2xl hover:scale-110 text-white py-2 px-5 '>S'inscrire</button>
-                                        </div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -94,17 +93,24 @@ export default function NavBar() {
                     <div className="h-full fixed  ">
                         <div className=' h-full p-16 bg-slate-950 bg-opacity-85 w-dvw flex justify-center items-center '>
                             <div className=" mx-10 grid grid-cols-5 z-10 h-full w-full ">
-                                
-                                <div className="col-span-2 w-full h-full bg-gradient-to-br from-amber-300 via-orange-500 to-orange-700 rounded-l-2xl ">
-                                    <div className="flex justify-end h-1/6">
 
-                                    </div>
-                                    <div className=" w-full h-5/6 flex justify-center items-center ">
-                                    <div className=" w-full ">
+                                <div className="col-span-2 w-full h-full bg-gradient-to-br from-amber-300 via-orange-500 to-orange-700 rounded-l-2xl ">
+                                    <div className=" w-full h-full flex justify-center items-center ">
                                         
-                                        <h1 className='text-center font-serif text-2xl text-white'>S'inscrire en tant que restaurateur</h1>
-                                        <div className="flex justify-center my-7 font-serif">
-                                        <button className='  border-2 border-white rounded-full text-2xl hover:scale-110 text-white py-2 px-5 '>S'inscrire</button>
+                                        <div className=" w-full h-full flex justify-center items-center ">
+                                        <div className=" w-full ">
+                                            <div className=" w-full ">
+                                                <h1 className='text-center font-serif text-2xl text-white'>S'inscrire en tant que restaurateur</h1>
+                                                <div className="flex justify-center my-7 font-serif">
+                                                    <button onClick={() => {setClient(false); setLogin(false); setResto(true)}} className='  border-2 hover:bg-white hover:text-orange-500 border-white rounded-full text-2xl hover:scale-110 text-white py-2 px-5 '>S'inscrire</button>
+                                                </div>
+                                            </div>
+                                            <div className=" w-full ">
+                                                <h1 className='text-center font-serif text-2xl text-white'>Se Connecter</h1>
+                                                <div className="flex justify-center my-7 font-serif">
+                                                    <button onClick={() => {setClient(false);setLogin(true); setResto(false)}} className='  border-2 hover:bg-white hover:text-orange-500 border-white rounded-full text-2xl hover:scale-110 text-white py-2 px-5 '>Se Connecter</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     </div>
@@ -112,7 +118,7 @@ export default function NavBar() {
                                 <div className="col-span-3 bg-slate-200 rounded-r-2xl">
                                     <div className="flex justify-end h-1/6">
 
-                                <IoCloseSharp onClick={() => setClient(false)} className='text-4xl font-bold text-black cursor-pointer' />
+                                        <IoCloseSharp onClick={() => setClient(false)} className='text-4xl font-bold text-black cursor-pointer' />
                                     </div>
                                     <div className=" flex items-center h-1/6 justify-center">
                                         <h1 className=' text-4xl pt-3  font-serif font-medium'>SE CONNECTER</h1>
@@ -142,10 +148,7 @@ export default function NavBar() {
                                         </div>
                                     </div>
                                     <div className="flex items-center h-1/6 justify-center ">
-                                        <button className='bg-gradient-to-br from-orange-200 via-orange-400 to-orange-700 rounded-full py-2 px-5 text-white font-serif text-2xl font-medium transition-all duration-500 hover:bg-gradient-to-tl hover:from-violet-700 hover:via-violet-800 hover:to-violet-950 active:scale-95  focus:ring-2 focus:ring-violet-500'>
-
-                                            Se Connecter
-                                        </button>
+                                        <button className='text-2xl  bg-orange-500 text-2 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>Se Connecter</button>
                                     </div>
                                 </div>
                             </div>
@@ -158,25 +161,29 @@ export default function NavBar() {
                     <div className="h-full fixed  ">
                         <div className=' h-full p-16 bg-slate-950 bg-opacity-85 w-dvw flex justify-center items-center '>
                             <div className=" mx-10 grid grid-cols-5 z-10 h-full w-full ">
-                                
-                                <div className="col-span-2 w-full h-full bg-gradient-to-br from-amber-300 via-orange-500 to-orange-700 rounded-l-2xl ">
-                                    <div className="flex justify-end h-1/6">
 
-                                    </div>
-                                    <div className=" w-full h-5/6 flex justify-center items-center ">
-                                    <div className=" w-full ">
-                                        <h1 className='text-center font-serif text-2xl text-white'>S'inscrire en tant que client</h1>
-                                        <div className="flex justify-center my-7 font-serif">
-                                        <button className='  border-2 border-white rounded-full text-2xl hover:scale-110 text-white py-2 px-5 '>S'inscrire</button>
+                                <div className="col-span-2 w-full h-full bg-gradient-to-br from-amber-300 via-orange-500 to-orange-700 rounded-l-2xl ">
+                                    <div className=" w-full h-full flex justify-center items-center ">
+                                        <div className=" w-full ">
+                                            <div className=" w-full ">
+                                                <h1 className='text-center font-serif text-2xl text-white'>S'inscrire en tant que client</h1>
+                                                <div className="flex justify-center my-7 font-serif">
+                                                    <button onClick={() => {setClient(true); setLogin(false); setResto(false)}} className='  border-2 hover:bg-white hover:text-orange-500 border-white rounded-full text-2xl hover:scale-110 text-white py-2 px-5 '>S'inscrire</button>
+                                                </div>
+                                            </div>
+                                            <div className=" w-full ">
+                                                <h1 className='text-center font-serif text-2xl text-white'>Se Connecter</h1>
+                                                <div className="flex justify-center my-7 font-serif">
+                                                    <button onClick={() => {setClient(false); setLogin(true); setResto(false)}} className='  border-2 hover:bg-white hover:text-orange-500 border-white rounded-full text-2xl hover:scale-110 text-white py-2 px-5 '>Se Connecter</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                       
-                                    </div>
                                     </div>
                                 </div>
                                 <div className="col-span-3 bg-slate-200 rounded-r-2xl">
                                     <div className="flex justify-end h-1/6">
 
-                                <IoCloseSharp onClick={() => setResto(false)} className='text-4xl font-bold cursor-pointer text-black' />
+                                        <IoCloseSharp onClick={() => setResto(false)} className='text-4xl font-bold cursor-pointer text-black' />
                                     </div>
                                     <div className=" flex items-center h-1/6 justify-center">
                                         <h1 className=' text-4xl pt-3  font-serif font-medium'>SE CONNECTER</h1>
@@ -206,9 +213,9 @@ export default function NavBar() {
                                         </div>
                                     </div>
                                     <div className="flex items-center h-1/6 justify-center ">
-                                        <Link to='/dashbord'  ><button onClick={()=>setResto(false)} className='bg-gradient-to-br from-orange-200 via-orange-400 to-orange-700 rounded-full py-2 px-5 text-white font-serif text-2xl font-medium transition-all duration-500 hover:bg-gradient-to-tl hover:from-violet-700 hover:via-violet-800 hover:to-violet-950 active:scale-95  focus:ring-2 focus:ring-violet-500'>
-                                            Se Connecter
-                                        </button></Link>
+                                        <Link to='/dashbord'  >
+                                            <button onClick={() => setResto(false)} className='text-2xl  bg-orange-500 text-2 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>Se Connecter</button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

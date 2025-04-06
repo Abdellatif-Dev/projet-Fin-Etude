@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Produits from './Produits';
 import Commande from './Commande';
 import Profile from './Profile';
+import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
     const [Profil, setProfil] = useState(true);
@@ -46,7 +47,9 @@ export default function Dashboard() {
                         <p className="text-lg font-semibold">Voulez-vous vraiment vous déconnecter ?</p>
                         <div className="flex justify-around mt-4">
                             <button onClick={() => setDeco(false)} className="px-4 py-2 bg-gray-300 rounded-lg text-gray-700 hover:bg-gray-400">Annuler</button>
+                            <Link to='/'>
                             <button onClick={() => console.log("Déconnecté")} className="px-4 py-2 bg-red-600 rounded-lg text-white hover:bg-red-700">Déconnecter</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

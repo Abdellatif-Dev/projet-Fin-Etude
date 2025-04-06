@@ -44,7 +44,7 @@ export default function Detai() {
             <div className=" flex w-full overflow-hidden group space-x-10">
                 <div className="flex w-max  animate-scrollX1 group-hover:[animation-play-state:paused] space-x-10 ">
                     {review.map((x, y) =>
-                        <div key={y} className="bg-slate-100 h-20 w-[800px] m-20 flex  duration-500">
+                        <div key={y} className=" h-20 w-[800px] m-20 flex  duration-500">
                         <img src={`../${User.find(z => z.id_User === x.user_id).image}`} className='h-20 w-20 rounded-full' alt="" />
                         <div className="">
                             <p className='pl-10 text-2xl font-serif font-medium'>Acteur :{User.find(z => z.id_User === x.user_id).name} </p>
@@ -59,7 +59,7 @@ export default function Detai() {
                 </div>
                 <div className="flex w-max animate-scrollX1 group-hover:[animation-play-state:paused] space-x-10 ">
                     {review.map((x, y) =>
-                        <div key={y} className="bg-slate-100 h-20 w-[800px] m-20 flex  duration-500">
+                        <div key={y} className=" h-20 w-[800px] m-20 flex  duration-500">
                             <img src={`../${User.find(z => z.id_User === x.user_id).image}`} className='h-20 w-20 rounded-full' alt="" />
                             <div className="">
                                 <p className='pl-10 text-2xl font-serif font-medium'>Acteur :{User.find(z => z.id_User === x.user_id).name} </p>

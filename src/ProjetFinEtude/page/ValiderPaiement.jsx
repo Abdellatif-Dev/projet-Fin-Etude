@@ -1,67 +1,97 @@
 import React from 'react'
+import { FaPhoneAlt } from 'react-icons/fa';
+import { FaLocationDot, FaUser } from 'react-icons/fa6';
+import { MdEmail } from 'react-icons/md';
 
 export default function ValiderPaiement(props) {
     console.log(props.TabComm);
 
     return (
-        <div className='pt-14 h-svh w-full'>
-            <div className='w-10/12 mx-auto my-5 bg-stone-200 h-[600px]'>
+        <div className='pt-14 h-svh w-full bg-white'>
+            <div className='w-10/12 mx-auto my-5 bg-gray-100 h-[600px]'>
                 <h1 className='text-center text-3xl font-serif'>Valider Votre Paiement</h1>
                 <div className="grid grid-cols-5">
                     <div className="col-span-3 px-4">
                         <div className="mt-4 space-y-4">
-                            <div>
-                                <label className="block text-gray-700">Nom </label>
-                                <input type="text" className="w-full border rounded-lg p-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Entrez le nom " />
+                            <div className="relative flex mx-10 items-center mt-5 border rounded-2xl bg-white px-3">
+                                <FaUser className="text-gray-500" />
+                                <input
+                                    type="email"
+                                    placeholder="Adresse email"
+                                    className="ml-2 w-full p-2 outline-none bg-transparent"
+                                />
                             </div>
-                            <div>
-                                <label className="block text-gray-700">E-mail</label>
-                                <input type="email" className="w-full border rounded-lg p-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Entrez E-mail" />
+                            <div className="relative flex mx-10 items-center mt-5 border rounded-2xl bg-white px-3">
+                                <MdEmail className="text-gray-500" />
+                                <input
+                                    type="email"
+                                    placeholder="Adresse email"
+                                    className="ml-2 w-full p-2 outline-none bg-transparent"
+                                />
                             </div>
-                            <div>
-                                <label className="block text-gray-700">telephon</label>
-                                <input type="tel" placeholder="06XXXXXXXX" pattern="[0-9]{10}" className="w-full border rounded-lg p-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                            <div className="relative flex mx-10 items-center mt-5 border rounded-2xl bg-white px-3">
+                                <FaPhoneAlt className="text-gray-500" />
+                                <input
+                                    type="tel"
+                                    placeholder="telephon"
+                                    className="ml-2 w-full p-2 outline-none bg-transparent"
+                                />
                             </div>
-                            <div>
-                                <label className="block text-gray-700">Adresse </label>
-                                <input type="text" className="w-full border rounded-lg p-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Entrez l'adresse" />                            </div>
+                            <div className="relative flex mx-10 items-center mt-5 border rounded-2xl bg-white px-3">
+                                <FaLocationDot className="text-gray-500" />
+                                <input
+                                    type="text"
+                                    placeholder="Adresse "
+                                    className="ml-2 w-full p-2 outline-none bg-transparent"
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="col-span-2">
-                        <h1 className='pt-3 text-center first-letter:uppercase font-serif text-2xl'>panier</h1>
-                        <div className="w-full  px-3 ">
-                            <table className=' w-full mx-auto bg-slate-300 border-collapse  '>
-                                <thead >
-                                    <tr >
-                                        <td className='w-1/5'>Photo</td>
-                                        <td className='w-2/5'>Nom</td>
-                                        <td className='w-1/5'>quantity</td>
-                                        <td className='w-1/5'>Prix</td>
-                                    </tr>
-                                </thead>
-                            </table>
+                    <div className="col-span-2 h-[500px] bg-white">
+                        <div className="h-4/5 overflow-x-auto scroll-smooth ">
+                            {props.TabComm.map((x, y) => (
+                                <div className="m-1 flex justify-between h-40 " key={y}>
+                                    <div className=" h-full">
+                                        <div className="h-32">
+                                            <img src={x.image_url} alt={x.name} className='w-32 h-32 rounded-md  object-cover ' />
+                                        </div>
+                                        <div className="h-8 flex items-end">
+                                            <p className='text-xl font-sans font-semibold text-nowrap'>{x.name}</p>
+                                        </div>
+                                    </div>
+                                    <div className="h-full w-56">
+                                        <div className='h-1/2 '>
+                                            <div className="flex justify-between">
+                                                <p className='text-xl font-sans font-semibold'>Prix: </p>
+                                                <p className='text-xl font-sans font-semibold'>{x.price.toFixed(2)} DH</p>
+                                            </div>
+                                            <div className="flex justify-between pt-5">
+                                                <p className='text-xl font-sans font-semibold'>Quantity: </p>
+                                                <p className='text-xl font-sans font-semibold'>{x.quantity}</p>
+                                            </div>
+                                        </div>
+                                        <div className='h-1/2 flex items-end w-56 pr-2'>
+                                            <div className="flex justify-between w-full ">
+                                                <p className='text-xl font-sans font-semibold'>Total: </p>
+                                                <p className='text-xl font-sans font-semibold'>{(x.quantity * x.price).toFixed(2)} DH</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        <div className="overflow-x-auto  sm:rounded-lg  scroll-smooth w-full  px-3 h-[260px]">
-                            <table className='w-full border-collapse  '>
-                                <tbody>
-                                    {props.TabComm.map((x, y) => (
-                                        <tr key={y} className='odd:bg-slate-300 border-b border-gray-400 '>
-                                            <td className='w-1/5'><img src={x.image_url} alt={x.name} className='w-12 h-12 object-cover'  /></td>
-                                            <td className='w-2/5'>{x.name}</td>
-                                            <td className='w-1/5'>{x.quantity }</td>
-                                            <td className='w-1/5'>{x.quantity * x.price}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="text-center text-xl font-bold  h-[30px]">
-                            Total: {props.TabComm.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)} DH
+                        <div className="h-1/5 flex  justify-center items-center  border-t-2 border-red-600">
+                            <div className="">
+                                <div className="text-center text-xl font-bold  ">
+                                    Total: {props.TabComm.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)} DH
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-center h-60 items-center">
-                <button className='py-2 px-3  text-3xl  rounded-full bg-gradient-to-b from-yellow-400 via-yellow-600 to-orange-500 hover:shadow-yellow-500 hover:shadow-[0_0px_35px_rgba(0,0,0,1)] hover:bg-gradient-to-t hover:from-yellow-400 hover:via-yellow-600 hover:to-orange-500 '>Valider</button>
+                <div className="flex justify-center h-32 items-center  ">
+                    <button className='text-2xl  bg-orange-500 text-2 hover:bg-orange-600 text-white px-4 py-2 rounded-full  '>Valider</button>
                 </div>
             </div>
         </div>

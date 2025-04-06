@@ -15,8 +15,8 @@ export default function Profile() {
                     </div>
                     <div className="mt-4 space-y-4">
                         <div>
-                            <label className="block text-gray-700">Nom du plat</label>
-                            <input type="text" className="w-full border rounded-lg p-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Entrez le nom du plat" />
+                            <label className="block text-gray-700">Nom </label>
+                            <input type="text" className="w-full border rounded-lg p-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Entrez le nom " />
                         </div>
                         <div>
                             <label className="block text-gray-700">Nom du restaurant</label>

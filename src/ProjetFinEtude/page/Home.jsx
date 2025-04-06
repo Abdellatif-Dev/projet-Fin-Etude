@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
 const tab = ['img1.png', 'img2.png', 'img3.png'];
+const tab1 = ['vd1.mp4', 'vd2.mp4', 'vd3.mp4'];
 
 export default function Home() {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [indexVd, setIndexVd] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % tab.length);
-        }, 5000);
+            setIndexVd((x) => (x + 1) % tab1.length);
+        }, 10000);
 
         return () => clearInterval(interval);
     }, []);
 
     return (
         <div>
-            <section
-                className='h-svh w-full bg-cover bg-center transition-all  duration-1000'
-                style={{
-                    backgroundImage: `url(/${tab[currentImageIndex]})`
-                }}
-            >
-                <div className="w-1/2  h-full grid  grid-cols-1  ">
-                    <div className=" col-span-1  ">
+            <section className='h-svh w-full bg-cover bg-center relative '   >
+                <video src={tab1[indexVd]} autoPlay loop muted className='w-full h-full object-cover transition-all  duration-75  absolute -z-20'></video>
+                <div className="w-1/2   h-full grid backdrop-blur-lg  grid-cols-1  ">
+                    <div className=" col-span-1   ">
                         <div className=" flex justify-center items-center h-full  ">
                             <h1 className='text-4xl text-white'>Bienvenue à </h1>
                             <img src="DawQ1.png" className='pt-4 pl-3' alt="" />
@@ -85,13 +82,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-
-
-
-
             </section>
-
-
         </div>
     )
 }

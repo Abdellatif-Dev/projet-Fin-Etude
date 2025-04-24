@@ -1,10 +1,14 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { menuData, Restaurants, Reviews, User } from '../data/data';
 import { FaStar } from 'react-icons/fa'; 
+import { useSelector } from 'react-redux';
 
 export default function Detai() {
     let { id } = useParams()
+    const Restaurants = useSelector((s) => s.Tache.Restaurants)
+    const menuData = useSelector((s) => s.Tache.menuData)
+    const Reviews = useSelector((s) => s.Tache.Reviews)
+    const User = useSelector((s) => s.Tache.User)
     const plat = menuData.find(x => x.id_Menu === Number(id))
     const review = Reviews.filter(x => x.Menu_id === Number(id))
     const Rating = (review.reduce((acc, item) => acc + item.rating, 0) / review.length).toFixed(1);

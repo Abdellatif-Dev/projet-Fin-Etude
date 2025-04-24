@@ -1,56 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { PiShoppingCartLight } from "react-icons/pi";
-import { menuData,  Restaurants } from '../data/data';
 import { Link, useNavigate } from 'react-router-dom';
-export default function Menu(props) {
-    const [data, setdata] = useState(menuData)
-    const [command, setCom] = useState([])
+import { addPlatToCommande, increaseQuantity, decreaseQuantity, removePlatFromCommande } from "../Store/CreteSlice";
+import { useDispatch, useSelector } from "react-redux"
+export default function Menu() {
     const [Affichercommand, setAff] = useState(false)
     const [filtreParNom, setFPN] = useState(true)
     const [filtreParPrix, setFPP] = useState(false)
     const [filtreParResto, setFPR] = useState(false)
-
+    const Menu = useSelector((s) => s.Tache.menuData)
+    const Restaurants = useSelector((s) => s.Tache.Restaurants)
+    const command = useSelector((s) => s.Tache.Commande)
+    const dispatch = useDispatch();
     const navigate = useNavigate()
-    const addToCart = (x) => {
-        const exist = command.find((cmd) => cmd.id_Menu === x.id_Menu);
-        if (exist) {
-            setCom(
-                command.map((cmd) =>
-                    cmd.id_Menu === x.id_Menu ? { ...cmd, quantity: cmd.quantity + 1 } : cmd
-                )
-            );
-        } else {
-            setCom([...command, { ...x, quantity: 1 }]);
-        }
-    }
-
     useEffect(() => {
         if (command.length === 0) {
             setAff(false)
         }
     }, [command])
-    const decrease = (id) => {
 
-        setCom(
-            command.map((cmd) =>
-                cmd.id_Menu === id ? { ...cmd, quantity: cmd.quantity - 1 } : cmd
-            ).filter((cmd) => cmd.quantity > 0)
-        );
-    }
+    const addToCart = (x) => {
+        dispatch(addPlatToCommande(x));
+    };
+    
     const increase = (id) => {
-        setCom(
-            command.map((cmd) =>
-                cmd.id_Menu === id ? { ...cmd, quantity: cmd.quantity + 1 } : cmd
-            )
-        );
-    }
-    const removePlat = (id) => {
-        setCom(
-            command.filter(x => x.id_Menu !== id)
-        )
-    }
+        dispatch(increaseQuantity(id));
+      };
+      
+      const decrease = (id) => {
+        dispatch(decreaseQuantity(id));
+      };
+      
+      const removePlat = (id) => {
+        dispatch(removePlatFromCommande(id));
+      };
+
     const ValiderPaiement = () => {
-        props.tabComm(command);
         navigate('/Valide');
 
     };
@@ -72,7 +57,7 @@ export default function Menu(props) {
                         <p>HI, xx xx</p>
                     </div>
                     <div className="h-3/5 overflow-x-auto scroll-smooth ">
-                        {command.map((x,y) => (
+                        {command.map((x, y) => (
                             <div className="m-1 flex justify-between h-40 " key={y}>
                                 <div className=" h-full">
                                     <div className="h-32">
@@ -119,7 +104,7 @@ export default function Menu(props) {
             <div className=" flex w-full overflow-hidden group space-x-10">
 
                 <div className="flex w-max animate-scrollX group-hover:[animation-play-state:paused] space-x-10 ">
-                    {data.slice(0, 3).map((x, y) =>
+                    {Menu.slice(0, 3).map((x, y) =>
                         <div key={y} className=" flex h-80 w-[800px] ">
                             <div className="h-full   w-2/5  bg-gradient-to-bl from-amber-400   via-yellow-600 to-orange-700 " >
                                 <div className="backdrop-blur-md grid grid-cols-1 h-full">
@@ -141,7 +126,7 @@ export default function Menu(props) {
                     )}
                 </div>
                 <div className="flex w-max animate-scrollX group-hover:[animation-play-state:paused] space-x-10">
-                    {data.slice(0, 3).map((x, y) => (
+                    {Menu.slice(0, 3).map((x, y) => (
                         <div key={y} className=" flex h-80 w-[800px] ">
                             <div className="h-full   w-2/5  bg-gradient-to-bl from-amber-400   via-yellow-600 to-orange-700 " >
                                 <div className="backdrop-blur-md grid grid-cols-1 h-full">
@@ -165,68 +150,69 @@ export default function Menu(props) {
             </div>
             <div className="h-48 w-10/12 m-auto bg-white mt-3 rounded-xl">
                 <div className="h-1/4 flex ">
-                    <div className={`h-full w-1/3 flex justify-center items-center ${filtreParNom?'border-b-4 text-orange-500 border-orange-400':''} `}>
-                        <button onClick={()=>{setFPN(true);setFPP(false);setFPR(false)}} className='text-xl font-sans '>Filtre par nom</button>
+                    <div className={`h-full w-1/3 flex justify-center items-center ${filtreParNom ? 'border-b-4 text-orange-500 border-orange-400' : ''} `}>
+                        <button onClick={() => { setFPN(true); setFPP(false); setFPR(false) }} className='text-xl font-sans '>Filtre par nom</button>
                     </div>
-                    <div className={`h-full w-1/3 flex justify-center items-center ${filtreParPrix?'border-b-4 text-orange-500 border-orange-400':''} `}>
-                        <button onClick={()=>{setFPN(false);setFPP(true);setFPR(false)}} className='text-xl font-sans '>Filtre par Prix</button>
+                    <div className={`h-full w-1/3 flex justify-center items-center ${filtreParPrix ? 'border-b-4 text-orange-500 border-orange-400' : ''} `}>
+                        <button onClick={() => { setFPN(false); setFPP(true); setFPR(false) }} className='text-xl font-sans '>Filtre par Prix</button>
                     </div>
-                    <div className={`h-full w-1/3 flex justify-center items-center ${filtreParResto?'border-b-4 text-orange-500 border-orange-400':''} `}>
-                        <button onClick={()=>{setFPN(false);setFPP(false);setFPR(true)}} className='text-xl font-sans '>Filtrer par nom de restaurant</button>
+                    <div className={`h-full w-1/3 flex justify-center items-center ${filtreParResto ? 'border-b-4 text-orange-500 border-orange-400' : ''} `}>
+                        <button onClick={() => { setFPN(false); setFPP(false); setFPR(true) }} className='text-xl font-sans '>Filtrer par nom de restaurant</button>
                     </div>
                 </div>
                 <div className="h-3/4">
-                {filtreParNom &&(
-                    <div className='h-full w-10/12 m-auto '>
-                        <div className="h-2/3 flex  items-center   ">
-                        <input list='type' className='w-full h-12 outline-none border-2 border-black rounded-md pl-3'  placeholder="Nom du plat "/>
-                            <datalist id='type'>
-                                {data.map((x,y)=><option key={y} value={x.name} ></option>)}
-                            </datalist>
+                    {filtreParNom && (
+                        <div className='h-full w-10/12 m-auto '>
+                            <div className="h-2/3 flex  items-center   ">
+                                <input list='type' className='w-full h-12 outline-none border-2 border-black rounded-md pl-3' placeholder="Nom du plat " />
+                                <datalist id='type'>
+                                    {Menu.map((x, y) => <option key={y} value={x.name} ></option>)}
+                                </datalist>
+                            </div>
+                            <div className="h-1/3 flex justify-center items-center ">
+                                <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
+                            </div>
                         </div>
-                        <div className="h-1/3 flex justify-center items-center ">
-                        <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
+                    )}
+                    {filtreParPrix && (
+                        <div className='h-full w-10/12 m-auto '>
+                            <div className="h-2/3 flex justify-around  items-center   ">
+                                <input type="number" name="" id="" placeholder='max' className='w-64 h-12 outline-none border-2 border-black rounded-md pl-3' />
+                                <input type="number" name="" id="" placeholder='min' className='w-64 h-12 outline-none border-2 border-black rounded-md pl-3' />
+                            </div>
+                            <div className="h-1/3 flex justify-center items-center ">
+                                <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
+                            </div>
                         </div>
-                    </div>
-                )}
-                {filtreParPrix &&(
-                    <div className='h-full w-10/12 m-auto '>
-                    <div className="h-2/3 flex justify-around  items-center   ">
-                        <input type="number" name="" id="" placeholder='max' className='w-64 h-12 outline-none border-2 border-black rounded-md pl-3' />
-                        <input type="number" name="" id="" placeholder='min' className='w-64 h-12 outline-none border-2 border-black rounded-md pl-3' />
-                    </div>
-                    <div className="h-1/3 flex justify-center items-center ">
-                    <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
-                    </div>
-                </div>
-                )}
-                {filtreParResto &&(
-                    <div className='h-full w-10/12 m-auto '>
-                    <div className="h-2/3 flex  items-center   ">
-                    <input list='type' className='w-full h-12 outline-none border-2 border-black rounded-md pl-3'  placeholder="Nom du restaurant "/>
-                        <datalist id='type'>
-                            {Restaurants.map((x,y)=><option key={y} value={x.name_Resto} ></option>)}
-                        </datalist>
-                    </div>
-                    <div className="h-1/3 flex justify-center items-center ">
-                    <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
-                    </div>
-                </div>
-                )}
+                    )}
+                    {filtreParResto && (
+                        <div className='h-full w-10/12 m-auto '>
+                            <div className="h-2/3 flex  items-center   ">
+                                <input list='type' className='w-full h-12 outline-none border-2 border-black rounded-md pl-3' placeholder="Nom du restaurant " />
+                                <datalist id='type'>
+                                    {Restaurants.map((x, y) => <option key={y} value={x.name_Resto} ></option>)}
+                                </datalist>
+                            </div>
+                            <div className="h-1/3 flex justify-center items-center ">
+                                <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
-
-            <div style={{ 'scrollbar-width': 'none' }} className=" flex w-[1200px] m-auto my-6  overflow-scroll  space-x-5 scroll-smooth">
-                <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  ALL</button>
-                <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  PIZZA</button>
-                <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  TACOS</button>
-                <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  HAMBURGER</button>
-                <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  SOUPE</button>
-                <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  SANDWICH</button>
-                <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  BOISSONS</button>
+            <div className='flex justify-center items-center'>
+                <div style={{ 'scrollbar-width': 'none' }} className=" flex w-2/3 m-auto my-6  overflow-scroll  space-x-5 scroll-smooth">
+                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  ALL</button>
+                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  PIZZA</button>
+                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  TACOS</button>
+                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  HAMBURGER</button>
+                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  SOUPE</button>
+                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  SANDWICH</button>
+                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  BOISSONS</button>
+                </div>
             </div>
             <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-                {data.map((x, y) =>
+                {Menu.map((x, y) =>
                     <div key={y} className="bg-white rounded-xl grid grid-cols-3 shadow-md overflow-hidden  hover:shadow-lg transition duration-300">
                         <div className="h-48 w-48 col-span-1 "  >
                             <Link to={`/detai/${x.id_Menu}`}>

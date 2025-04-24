@@ -7,11 +7,11 @@ export default function NavBar() {
     const [login, setLogin] = useState(false)
     const [client, setClient] = useState(false)
     const [resto, setResto] = useState(false)
-    console.log(login)
+  
     return (
         <div className=' h-svh  absolute z-20'>
             <div className='    '>
-                <div className='h-14  bg-zinc-950 opacity-75 backdrop-blur-3xl w-full fixed flex justify-between '>
+                <div className='bg-black flex justify-between h-14 text-white fixed  w-full  '>
                     <div className="flex justify-center items-center h-14 mx-5">
                         <img src="DawQ.png" alt="" className='h-10' />
                     </div>

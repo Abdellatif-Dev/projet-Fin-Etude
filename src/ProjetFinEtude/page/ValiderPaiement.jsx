@@ -2,10 +2,12 @@ import React from 'react'
 import { FaPhoneAlt } from 'react-icons/fa';
 import { FaLocationDot, FaUser } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import {clearCommande} from '../Store/CreteSlice'
 
-export default function ValiderPaiement(props) {
-    console.log(props.TabComm);
-
+export default function ValiderPaiement() {
+    const command = useSelector((s) => s.Tache.Commande)
+    const dispatch=useDispatch()
     return (
         <div className='pt-14 h-svh w-full bg-white'>
             <div className='w-10/12 mx-auto my-5 bg-gray-100 h-[600px]'>
@@ -49,7 +51,7 @@ export default function ValiderPaiement(props) {
                     </div>
                     <div className="col-span-2 h-[500px] bg-white">
                         <div className="h-4/5 overflow-x-auto scroll-smooth ">
-                            {props.TabComm.map((x, y) => (
+                            {command.map((x, y) => (
                                 <div className="m-1 flex justify-between h-40 " key={y}>
                                     <div className=" h-full">
                                         <div className="h-32">
@@ -83,7 +85,7 @@ export default function ValiderPaiement(props) {
                         <div className="h-1/5 flex  justify-center items-center  border-t-2 border-red-600">
                             <div className="">
                                 <div className="text-center text-xl font-bold  ">
-                                    Total: {props.TabComm.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)} DH
+                                    Total: {command.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)} DH
                                 </div>
 
                             </div>
@@ -91,7 +93,7 @@ export default function ValiderPaiement(props) {
                     </div>
                 </div>
                 <div className="flex justify-center h-32 items-center  ">
-                    <button className='text-2xl  bg-orange-500 text-2 hover:bg-orange-600 text-white px-4 py-2 rounded-full  '>Valider</button>
+                    <button onClick={()=>dispatch(clearCommande())} className='text-2xl  bg-orange-500 text-2 hover:bg-orange-600 text-white px-4 py-2 rounded-full  '>Valider</button>
                 </div>
             </div>
         </div>

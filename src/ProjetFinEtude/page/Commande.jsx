@@ -54,130 +54,147 @@ export default function Commande() {
                 </div>
                 {
                     Nouvelle && (
-                        <div className="mt-2 p-4 bg-white rounded-lg shadow-md border h-[520px]">
-                            <table className="w-full text-sm ">
-                                <thead className="text-sm  bg-zinc-100 text-violet-700 font-bold ">
-                                    <tr>
-                                        <td className="px-6 py-3 w-1/12">Photo</td>
-                                        <td className="px-6 py-3 w-4/12">Nom</td>
-                                        <td className="px-6 py-3 w-4/12">Adresse</td>
-                                        <td className="px-6 py-3 w-1/12">Quantity</td>
-                                        <td className="px-6 py-3 w-1/12">Prix</td>
-                                        <td className="px-6 py-3 w-1/12">Action</td>
-                                    </tr>
-                                </thead>
-                            </table>
-                            <div className="relative overflow-x-auto  sm:rounded-lg  scroll-smooth h-[490px]">
-                                <table className="w-full text-sm ">
+                    
+
+                            <div className="overflow-x-auto h-[500px]">
+                                <table className="w-full text-sm text-left border-collapse">
+                                    <thead className="sticky top-0 bg-gray-100 text-gray-700 font-semibold">
+                                        <tr>
+                                            <th className="px-4 py-3 w-1/12">Photo</th>
+                                            <th className="px-4 py-3 w-2/12">Nom</th>
+                                            <th className="px-4 py-3 w-4/12">Adresse</th>
+                                            <th className="px-4 py-3 w-1/12 text-center">Quantité</th>
+                                            <th className="px-4 py-3 w-1/12 text-right">Prix</th>
+                                            <th className="px-4 py-3 w-2/12 text-center">Action</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                        {lesCommand.filter((x) => x.status === 'en attente').map((x, y) =>
-                                            <tr className="  text-black  odd:bg-zinc-300 even:bg-zinc-100 border-t border-gray-100" key={y}>
-                                                <td className="px-6 py-1   whitespace-nowrap">
-                                                    <img src={`http://127.0.0.1:8000/storage/${x.menu.image_plate}`} alt="profil" width={50} height={50} />
+                                        {lesCommand.filter((x) => x.status === 'en attente').map((x, y) => (
+                                            <tr
+                                                key={y}
+                                                className="odd:bg-white even:bg-gray-50 border-t border-gray-200 hover:bg-gray-100 transition"
+                                            >
+                                                <td className="px-4 py-2">
+                                                    <img
+                                                        src={`http://127.0.0.1:8000/storage/${x.menu.image_plate}`}
+                                                        alt="menu"
+                                                        className="w-12 h-12 rounded object-cover shadow"
+                                                    />
                                                 </td>
-                                                <td className="px-6 py-1">{x.menu.name}</td>
-                                                <td className="px-6 py-1">{x.commande.address}</td>
-                                                <td className="px-6 py-1">{x.quantity}</td>
-                                                <td className="px-6 py-1">{x.menu.prix}</td>
-                                                <td className="px-6 py-1">
-                                                    <div className="flex space-x-2">
+                                                <td className="px-4 py-2">{x.menu.name}</td>
+                                                <td className="px-4 py-2 break-words">{x.commande.address}</td>
+                                                <td className="px-4 py-2 text-center">{x.quantity}</td>
+                                                <td className="px-4 py-2 text-right text-nowrap">{x.menu.prix} DH</td>
+                                                <td className="px-4 py-2 text-center ">
+                                                    <div className="flex  justify-center  space-x-4">
+                                                    <button onClick={() => updateStatus(x.id, 'acceptée')} className='bg-green-500 hover:bg-green-600 rounded-md p-1'>
+                                                        <AiOutlineCheck className='text-white text-xl' />
+                                                    </button>
 
-                                                        <button onClick={() => updateStatus(x.id, 'acceptée')} className='bg-green-500 hover:bg-green-600 rounded-md p-1'>
-                                                            <AiOutlineCheck className='text-white text-xl' />
-                                                        </button>
-
-                                                        <button onClick={() => updateStatus(x.id, 'refusée')} className='bg-red-500 hover:bg-red-600 rounded-md p-1'>
-                                                            <AiOutlineClose className='text-white text-xl' />
-                                                        </button>
+                                                    <button onClick={() => updateStatus(x.id, 'refusée')} className='bg-red-500 hover:bg-red-600 rounded-md p-1'>
+                                                        <AiOutlineClose className='text-white text-xl' />
+                                                    </button>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        )}
 
+                                        ))}
                                     </tbody>
                                 </table>
+
                             </div>
-                        </div>
+
                     )
                 }
                 {
                     traitement && (
-                        <div className="mt-2 p-4 bg-white rounded-lg shadow-md border h-[520px]">
-                            <table className="w-full text-sm ">
-                                <thead className="text-sm  bg-zinc-100 text-violet-700 font-bold ">
+                        <div className="overflow-x-auto h-[500px]">
+                            <table className="w-full text-sm text-left border-collapse">
+                                <thead className="sticky top-0 bg-gray-100 text-gray-700 font-semibold">
                                     <tr>
-                                        <td className="px-6 py-3 w-1/12">Photo</td>
-                                        <td className="px-6 py-3 w-4/12">Nom</td>
-                                        <td className="px-6 py-3 w-4/12">Adresse</td>
-                                        <td className="px-6 py-3 w-1/12">Quantity</td>
-                                        <td className="px-6 py-3 w-1/12">Prix</td>
-                                        <td className="px-6 py-3 w-1/12">Action</td>
+                                        <th className="px-4 py-3 w-1/12">Photo</th>
+                                        <th className="px-4 py-3 w-2/12">Nom</th>
+                                        <th className="px-4 py-3 w-4/12">Adresse</th>
+                                        <th className="px-4 py-3 w-1/12 text-center">Quantité</th>
+                                        <th className="px-4 py-3 w-1/12 text-right">Prix</th>
+                                        <th className="px-4 py-3 w-2/12 text-center">Action</th>
                                     </tr>
                                 </thead>
-                            </table>
-                            <div className="relative overflow-x-auto  sm:rounded-lg  scroll-smooth h-[400px]">
-                                <table className="w-full text-sm ">
-                                    <tbody>
-                                        {lesCommand.filter((x) => x.status === 'acceptée').map((x, y) =>
-                                            <tr className="  text-black  odd:bg-zinc-300 even:bg-zinc-100 border-t border-gray-100" key={y}>
-                                                <td className="px-6 py-1   whitespace-nowrap">
-                                                    <img src={`http://127.0.0.1:8000/storage/${x.menu.image_plate}`} alt="profil" width={50} height={50} />
-                                                </td>
-                                                <td className="px-6 py-1">{x.menu.name}</td>
-                                                <td className="px-6 py-1">{x.commande.address}</td>
-                                                <td className="px-6 py-1">{x.quantity}</td>
-                                                <td className="px-6 py-1">{x.menu.prix}</td>
-                                                <td className="px-6 py-1">
-                                                    <div className="flex space-x-2">
-                                                        <button onClick={() => updateStatus(x.id, 'livrée')} className='py-1 px-2 rounded-md text-nowrap text-white bg-orange-500 hover:bg-orange-600' >{x.status}</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
+                                <tbody>
+                                    {lesCommand.filter((x) => x.status === 'acceptée').map((x, y) => (
+                                        <tr
+                                            key={y}
+                                            className="odd:bg-white even:bg-gray-50 border-t border-gray-200 hover:bg-gray-100 transition"
+                                        >
+                                            <td className="px-4 py-2">
+                                                <img
+                                                    src={`http://127.0.0.1:8000/storage/${x.menu.image_plate}`}
+                                                    alt="menu"
+                                                    className="w-12 h-12 rounded object-cover shadow"
+                                                />
+                                            </td>
+                                            <td className="px-4 py-2">{x.menu.name}</td>
+                                            <td className="px-4 py-2 break-words">{x.commande.address}</td>
+                                            <td className="px-4 py-2 text-center">{x.quantity}</td>
+                                            <td className="px-4 py-2 text-right text-nowrap">{x.menu.prix} DH</td>
+                                            <td className="px-4 py-2 text-center">
+                                                <span className='py-1 px-3 rounded-full text-sm font-medium text-white bg-green-600 '>
+                                                    {x.status}
+                                                </span>
+                                            </td>
+                                        </tr>
 
-                                    </tbody>
-                                </table>
-                            </div>
+                                    ))}
+                                </tbody>
+                            </table>
+
                         </div>
+
                     )
                 }
                 {
                     livre && (
-                        <div className="mt-2 p-4 bg-white rounded-lg shadow-md border h-[520px]">
-                            <table className="w-full text-sm ">
-                                <thead className="text-sm  bg-zinc-100 text-violet-700 font-bold ">
+
+                        <div className="overflow-x-auto h-[500px]">
+                            <table className="w-full text-sm text-left border-collapse">
+                                <thead className="sticky top-0 bg-gray-100 text-gray-700 font-semibold">
                                     <tr>
-                                        <td className="px-6 py-3 w-1/12">Photo</td>
-                                        <td className="px-6 py-3 w-4/12">Nom</td>
-                                        <td className="px-6 py-3 w-4/12">Adresse</td>
-                                        <td className="px-6 py-3 w-1/12">Quantity</td>
-                                        <td className="px-6 py-3 w-1/12">Prix</td>
-                                        <td className="px-6 py-3 w-1/12">Action</td>
+                                        <th className="px-4 py-3 w-1/12">Photo</th>
+                                        <th className="px-4 py-3 w-2/12">Nom</th>
+                                        <th className="px-4 py-3 w-4/12">Adresse</th>
+                                        <th className="px-4 py-3 w-1/12 text-center">Quantité</th>
+                                        <th className="px-4 py-3 w-1/12 text-right">Prix</th>
+                                        <th className="px-4 py-3 w-2/12 text-center">Action</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    {lesCommand.filter((x) => x.status === 'livrée').map((x, y) => (
+                                        <tr
+                                            key={y}
+                                            className="odd:bg-white even:bg-gray-50 border-t border-gray-200 hover:bg-gray-100 transition"
+                                        >
+                                            <td className="px-4 py-2">
+                                                <img
+                                                    src={`http://127.0.0.1:8000/storage/${x.menu.image_plate}`}
+                                                    alt="menu"
+                                                    className="w-12 h-12 rounded object-cover shadow"
+                                                />
+                                            </td>
+                                            <td className="px-4 py-2">{x.menu.name}</td>
+                                            <td className="px-4 py-2 break-words">{x.commande.address}</td>
+                                            <td className="px-4 py-2 text-center">{x.quantity}</td>
+                                            <td className="px-4 py-2 text-right text-nowrap">{x.menu.prix} DH</td>
+                                            <td className="px-4 py-2 text-center">
+                                                <span className='py-1 px-3 rounded-full text-sm font-medium text-white bg-green-600 '>
+                                                    {x.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                    ))}
+                                </tbody>
                             </table>
-                            <div className="relative overflow-x-auto  sm:rounded-lg  scroll-smooth h-[400px]">
-                                <table className="w-full text-sm ">
-                                    <tbody>
-                                        {lesCommand.filter((x) => x.status === 'livrée').map((x, y) =>
-                                            <tr className="  text-black  odd:bg-zinc-300 even:bg-zinc-100 border-t border-gray-100" key={y}>
-                                                <td className="px-6 py-1   whitespace-nowrap">
-                                                    <img src={`http://127.0.0.1:8000/storage/${x.menu.image_plate}`} alt="profil" width={50} height={50} />
-                                                </td>
-                                                <td className="px-6 py-1">{x.menu.name}</td>
-                                                <td className="px-6 py-1">{x.commande.address}</td>
-                                                <td className="px-6 py-1">{x.quantity}</td>
-                                                <td className="px-6 py-1">{x.menu.prix}</td>
-                                                <td className="px-6 py-1">
-                                                    <div className="flex space-x-2">
-                                                        <span className='py-1 px-2 rounded-md text-nowrap text-white bg-green-600  '>{x.status}</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
+
                         </div>
                     )
                 }

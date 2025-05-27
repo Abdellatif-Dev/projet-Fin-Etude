@@ -123,7 +123,7 @@ console.log(image_resto);
                         </div>
                         <button
                             type='submit'
-                            className="mt-5 bg-violet-600 px-4 py-2 rounded-lg text-white hover:bg-violet-700"
+                            className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
                         >
                             Modifier
                         </button>

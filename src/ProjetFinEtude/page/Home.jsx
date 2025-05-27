@@ -30,20 +30,17 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className='h-screen'>
-                <div className="h-1/6">
-                    <h1 className="pt-20 text-center text-5xl font-bold text-orange-500  ">Qui sommes-nous</h1>
-                </div>
-                <div className="h-5/6 mx-20">
-                    <div className=" h-full bg-cover  bg-slate-50 " style={{ backgroundImage: 'url(/about1.png)' }}>
-                        <div className="  w-full h-full  ">
-                            <div className="flex items-center justify-end h-3/4 w-1/2">
-                                <p className='text-2xl  text-center  w-4/5 mt-20  font-bold'>Bienvenue sur DAWQ , la plateforme idéale pour connecter les restaurants à leurs clients en toute simplicité ! Nous offrons aux
-                                    propriétaires de restaurants une opportunité  unique de présenter leurs menus et de vendre  leurs plats directement via notre site
-                                </p></div>
-                            <div className=" flex justify-center ml-10">
-                                <button className='py-2  px-5 rounded-full bg-gradient-to-b from-yellow-400 via-yellow-600 to-orange-500 hover:bg-gradient-to-t hover:from-yellow-400 hover:via-yellow-600 hover:to-orange-500'>More About Us</button>
-                            </div></div>
+            <section className='min-h-screen bg-slate-50 py-20 px-10'>
+                <h2 className='text-4xl md:text-5xl font-bold text-orange-500 text-center mb-12'>Qui sommes-nous</h2>
+                <div className='flex flex-col md:flex-row items-center justify-between gap-10'>
+                    <img src="about.jpg" alt="À propos" className='w-full md:w-1/2 rounded-xl shadow-lg' />
+                    <div className='md:w-1/2'>
+                        <p className='text-lg md:text-xl font-semibold mb-6'>
+                            Bienvenue sur <strong>DAWQ</strong>, la plateforme idéale pour connecter les restaurants à leurs clients en toute simplicité ! Nous offrons aux propriétaires de restaurants une opportunité unique de présenter leurs menus et de vendre leurs plats directement via notre site.
+                        </p>
+                        <button className='py-2 px-6 rounded-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500 text-white font-bold hover:brightness-110 transition-all'>
+                            En savoir plus
+                        </button>
                     </div>
                 </div>
             </section>

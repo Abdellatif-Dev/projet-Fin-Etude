@@ -105,7 +105,7 @@ export default function DashboardClient() {
     }
 
     return (
-        <div className='pt-14  bg-slate-100 grid grid-cols-5 '>
+        <div className='pt-14  bg-slate-100 grid grid-cols-5  '>
             <div className="col-span-1 bg-zinc-200">
                 <div className=" fixed w-1/5">
 
@@ -127,8 +127,8 @@ export default function DashboardClient() {
                     </div>
                 </div>
             </div>
-            <div className="col-span-4 ">
-                <p className=' text-3xl font-serif font-bold text-center pt-4 '>Bonjour {user?.name}</p>
+            <div className="col-span-4 px-5 ">
+                <p className=' text-3xl font-serif font-bold px-2 pt-4 '>Bonjour {user?.name}</p>
                 {Profil && (
                     <div className="mt-4 p-6 bg-white rounded-2xl shadow-lg border ">
                         <form onSubmit={handleUpdate} >
@@ -234,7 +234,7 @@ export default function DashboardClient() {
                                                 <td className="px-4 py-2 break-words">{commande.address}</td>
                                                 <td className="px-4 py-2 text-center">{detail.commande_id}</td>
                                                 <td className="px-4 py-2 text-center">{detail.quantity}</td>
-                                                <td className="px-4 py-2 text-right">{detail.menu?.prix} DH</td>
+                                                <td className="px-4 py-2 text-right text-nowrap">{detail.menu?.prix} DH</td>
                                                 <td className="px-4 py-2 text-center">
                                                     <span className={`py-1 px-3 rounded-full text-sm font-medium ${getStatusColor(detail.status)}`}>
                                                         {detail.status}

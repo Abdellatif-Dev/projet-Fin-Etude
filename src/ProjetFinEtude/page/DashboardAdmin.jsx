@@ -98,7 +98,7 @@ export default function DashboardAdmin() {
             </div>
 
             <div className="col-span-4 ">
-                <p className=' text-3xl font-serif font-bold text-center pt-4 '>Bonjour {user?.name}</p>
+                <p className=' text-3xl font-serif font-bold px-10 pt-4 '>Bonjour {user?.name}</p>
                 {Utilisateurs && (
                     <div className="mt-4 p-6 bg-white rounded-2xl shadow-lg border h-[520px]">
                         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Liste des utilisateurs</h2>

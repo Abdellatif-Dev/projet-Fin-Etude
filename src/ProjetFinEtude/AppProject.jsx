@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBar from './page/NavBar'
 import { Route, Routes } from 'react-router-dom'
 import Home from './page/Home'
@@ -12,34 +12,70 @@ import { setUser } from "./Store/CreteSlice";
 import DashboardClient from './page/DashboardClient'
 import ShowRestaurant from './page/ShowRestaurant'
 import DashboardAdmin from './page/DashboardAdmin'
+import ProtectedRoute from './ProtectedRoute'
+import AboutUs from './page/Aboutus'
+
 export default function AppProject() {
   const dispatch = useDispatch();
+  const user = useSelector(s => s.Tache.currentUser);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-        dispatch(setUser(JSON.parse(storedUser)));
+      dispatch(setUser(JSON.parse(storedUser)));
     }
-}, []);
-  const user = useSelector(s => s.Tache.currentUser);
-  console.log(user);
-  
+    setLoading(false); // حتى لو ما فيه مستخدم، نكمل التحميل
+  }, [dispatch]);
+
+  if (loading) {
+    return <p className='text-center text-xl p-10'>Chargement...</p>;
+  }
+
   return (
     <div>
-      <NavBar/>
-      
+      <NavBar />
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/Menu' element={<Menu />}/>
-        <Route path='/dashbord' element={<Dashboard/>}/>
-        <Route path='/DashboardClient' element={<DashboardClient/>}/>
-        <Route path='/DashboardAdmin' element={<DashboardAdmin/>}/>
-        <Route path='/detai/:id' element={<Detai/>}/>
-        <Route path='/showRestaurant/:id' element={<ShowRestaurant/>}/>
-        <Route path='/Valide' element={<ValiderPaiement />}/>
-        <Route path='/About' element={<h1>about us</h1>}/>
-        <Route path='/*' element={<h1>page not fand</h1>}/>
+        <Route path='/' element={<Home />} />
+        <Route path='/Menu' element={<Menu />} />
+        <Route path="/DashboardClient" element={
+          <ProtectedRoute
+            element={<DashboardClient />}
+            isAuthenticated={!!user?.name}
+            allowedRoles={["client"]}
+            userRole={user?.role}
+          />
+        } />
+        <Route path="/dashbord" element={
+          <ProtectedRoute
+            element={<Dashboard />}
+            isAuthenticated={!!user?.name}
+            allowedRoles={["restaurant"]}
+            userRole={user?.role}
+          />
+        } />
+        <Route path="/DashboardAdmin" element={
+          <ProtectedRoute
+            element={<DashboardAdmin />}
+            isAuthenticated={!!user?.name}
+            allowedRoles={["administrateur"]}
+            userRole={user?.role}
+          />
+        } />
+        <Route path="/Valide" element={
+          <ProtectedRoute
+            element={<ValiderPaiement />}
+            isAuthenticated={!!user?.name}
+            allowedRoles={["client"]}
+            userRole={user?.role}
+          />
+        } />
+        <Route path='/detai/:id' element={<Detai />} />
+        <Route path='/showRestaurant/:id' element={<ShowRestaurant />} />
+        <Route path='/About' element={<AboutUs/>} />
+        <Route path='/*' element={<h1>Page non trouvée</h1>} />
       </Routes>
-      <Footer/>
+      <Footer />
     </div>
-  )
+  );
 }

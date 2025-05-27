@@ -8,11 +8,16 @@ export default function Menu() {
     const [filtreParNom, setFPN] = useState(true)
     const [filtreParPrix, setFPP] = useState(false)
     const [filtreParResto, setFPR] = useState(false)
+    const [searchNom, setSearchNom] = useState('');
+    const [searchPrixMin, setSearchPrixMin] = useState('');
+    const [searchPrixMax, setSearchPrixMax] = useState('');
+    const [searchResto, setSearchResto] = useState('');
+
 
     const currentUser = useSelector((s) => s.Tache.currentUser)
     const Restaurants = useSelector((s) => s.Tache.User)
 
-    
+
     const command = useSelector((s) => s.Tache.Commande)
     const { menuData, loading, error } = useSelector((state) => state.Tache);
     const dispatch = useDispatch();
@@ -22,11 +27,11 @@ export default function Menu() {
             setAff(false)
         }
         console.log(command);
-        
+
     }, [command])
 
     console.log(menuData);
-    
+
     const addToCart = (x) => {
         dispatch(addPlatToCommande(x));
     };
@@ -42,6 +47,27 @@ export default function Menu() {
     const removePlat = (id) => {
         dispatch(removePlatFromCommande(id));
     };
+    const getFilteredMenu = () => {
+        if (filtreParNom && searchNom.trim() !== '') {
+            return menuData.filter(item => item.name.toLowerCase().includes(searchNom.toLowerCase()));
+        }
+
+        if (filtreParPrix && searchPrixMin !== '' && searchPrixMax !== '') {
+            return menuData.filter(item => {
+                const prix = parseFloat(item.prix);
+                return prix >= parseFloat(searchPrixMin) && prix <= parseFloat(searchPrixMax);
+            });
+        }
+
+        if (filtreParResto && searchResto.trim() !== '') {
+            return menuData.filter(item =>
+                Restaurants.find(r => r.id === item.restaurant_id && r.nameResto.toLowerCase().includes(searchResto.toLowerCase()))
+            );
+        }
+
+        return menuData;
+    };
+
 
     const ValiderPaiement = () => {
         navigate('/Valide');
@@ -50,8 +76,8 @@ export default function Menu() {
 
 
 
-    if (loading) return <p>جاري التحميل...</p>;
-    if (error) return <p>حدث خطأ: {error}</p>;
+    if (loading) return <p>Chargement en cours...</p>;
+    if (error) return <p>Une erreur s'est produite : {error}</p>;
 
     return (
         <div className='pt-14 bg-slate-200'>
@@ -112,53 +138,52 @@ export default function Menu() {
                 </div>
             )}
 
-            <h1 className='text-center z-10  text-3xl font-serif  font-bold w-full absolute text-white '>Meilleur vendeur</h1>
+            <h1 className='text-center   text-3xl font-serif  font-bold w-full  text-black '>Meilleur vendeur</h1>
 
             <div className=" flex w-full overflow-hidden group space-x-10">
 
                 <div className="flex w-max animate-scrollX group-hover:[animation-play-state:paused] space-x-10 ">
-                    {menuData.slice(0, 3).map((x, y) =>
-                        <div key={y} className=" flex h-80 w-[800px] ">
-                            <div className="h-full   w-2/5  bg-gradient-to-bl from-amber-400   via-yellow-600 to-orange-700 " >
-                                <div className="backdrop-blur-md grid grid-cols-1 h-full">
-                                    <div className="col-span-1  flex items-center pl-5   ">
-                                        <h1 className='  font-serif text-2xl text-white'>Nom :{x.name}</h1>
-                                    </div>
-                                    <div className="col-span-1  flex items-center pl-5   ">
-                                        <h1 className=' font-serif text-2xl text-white'>Nom du restaurant:{Restaurants.find(y => y.id === x.restaurant_id).nameResto}</h1>
-                                    </div>
-                                    <div className="col-span-1  flex items-center pl-5   ">
-                                        <h1 className='font-serif text-2xl text-white'>Prix:{x.price}</h1>
-                                    </div>
+                    {menuData.slice(0, 3).map((x, y) => {
+                        const restaurant = Restaurants.find(r => r.id === x.restaurant_id);
+                        return (
+                            <div key={y} className="flex h-80 w-[800px] rounded-2xl shadow-xl overflow-hidden border border-gray-200 hover:scale-[1.02] duration-300 bg-white">
+                                <div className="w-2/5 bg-gradient-to-br from-yellow-500 via-amber-600 to-orange-500 p-6 text-white flex flex-col justify-center gap-4">
+                                    <h1 className="text-2xl font-semibold font-serif">Nom: <span className="font-normal">{x.name}</span></h1>
+                                    <h1 className="text-2xl font-semibold font-serif">Restaurant: <span className="font-normal text-nowrap">{restaurant?.nameResto || 'Inconnu'}</span></h1>
+                                    <h1 className="text-2xl font-semibold font-serif">Prix: <span className="font-normal">{x.price} DH</span></h1>
+                                </div>
+                                <div className="w-3/5 h-full">
+                                    <img
+                                        src={`http://127.0.0.1:8000/storage/${x.image_plate}`}
+                                        alt={x.name}
+                                        className="w-full h-full object-cover hover:brightness-110 hover:scale-105 duration-500"
+                                    />
                                 </div>
                             </div>
-                            <div className="bg-cover bg-center w-3/5 h-full ">
-                                <img src={`http://127.0.0.1:8000/storage/${x.image_plate}`} className="w-full h-full object-cover hover:saturate-100 duration-500" alt={x.name} />
-                            </div>
-                        </div>
-                    )}
+                        );
+                    })}
                 </div>
                 <div className="flex w-max animate-scrollX group-hover:[animation-play-state:paused] space-x-10">
-                    {menuData.slice(0, 3).map((x, y) => (
-                        <div key={y} className=" flex h-80 w-[800px] ">
-                            <div className="h-full   w-2/5  bg-gradient-to-bl from-amber-400   via-yellow-600 to-orange-700 " >
-                                <div className="backdrop-blur-md grid grid-cols-1 h-full">
-                                    <div className="col-span-1  flex items-center pl-5   ">
-                                        <h1 className='  font-serif text-2xl text-white'>Nom :{x.name}</h1>
-                                    </div>
-                                    <div className="col-span-1  flex items-center pl-5   ">
-                                        <h1 className=' font-serif text-2xl text-white'>Nom du restaurant:{Restaurants.find(y => y.id === x.restaurant_id).nameResto}</h1>
-                                    </div>
-                                    <div className="col-span-1  flex items-center pl-5   ">
-                                        <h1 className='font-serif text-2xl text-white'>Prix:{x.prix}</h1>
-                                    </div>
+                    {menuData.slice(0, 3).map((x, y) => {
+                        const restaurant = Restaurants.find(r => r.id === x.restaurant_id);
+                        return (
+                            <div key={y} className="flex h-80 w-[800px] rounded-2xl shadow-xl overflow-hidden border border-gray-200 hover:scale-[1.02] duration-300 bg-white">
+                                <div className="w-2/5 bg-gradient-to-br from-yellow-500 via-amber-600 to-orange-500 p-6 text-white flex flex-col justify-center gap-4">
+                                    <h1 className="text-2xl font-semibold font-serif">Nom: <span className="font-normal">{x.name}</span></h1>
+                                    <h1 className="text-2xl font-semibold font-serif">Restaurant: <span className="font-normal text-nowrap">{restaurant?.nameResto || 'Inconnu'}</span></h1>
+                                    <h1 className="text-2xl font-semibold font-serif">Prix: <span className="font-normal">{x.price} DH</span></h1>
+                                </div>
+                                <div className="w-3/5 h-full">
+                                    <img
+                                        src={`http://127.0.0.1:8000/storage/${x.image_plate}`}
+                                        alt={x.name}
+                                        className="w-full h-full object-cover hover:brightness-110 hover:scale-105 duration-500"
+                                    />
                                 </div>
                             </div>
-                            <div className="bg-cover bg-center w-3/5 h-full ">
-                                <img src={`http://127.0.0.1:8000/storage/${x.image_plate}`} className="w-full h-full object-cover hover:saturate-100 duration-500" alt={x.name} />
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
+
                 </div>
             </div>
             <div className="h-48 w-10/12 m-auto bg-white mt-3 rounded-xl">
@@ -177,38 +202,48 @@ export default function Menu() {
                     {filtreParNom && (
                         <div className='h-full w-10/12 m-auto '>
                             <div className="h-2/3 flex  items-center   ">
-                                <input list='type' className='w-full h-12 outline-none border-2 border-black rounded-md pl-3' placeholder="Nom du plat " />
-                                <datalist id='type'>
-                                    {menuData.map((x, y) => <option key={y} value={x.name} ></option>)}
-                                </datalist>
-                            </div>
-                            <div className="h-1/3 flex justify-center items-center ">
-                                <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
+                                <input
+                                    type='text'
+                                    value={searchNom}
+                                    onChange={(e) => setSearchNom(e.target.value)}
+                                    className='w-full h-12 outline-none border-2 border-black rounded-md pl-3'
+                                    placeholder="Nom du plat "
+                                />
                             </div>
                         </div>
                     )}
                     {filtreParPrix && (
                         <div className='h-full w-10/12 m-auto '>
                             <div className="h-2/3 flex justify-around  items-center   ">
-                                <input type="number" name="" id="" placeholder='max' className='w-64 h-12 outline-none border-2 border-black rounded-md pl-3' />
-                                <input type="number" name="" id="" placeholder='min' className='w-64 h-12 outline-none border-2 border-black rounded-md pl-3' />
-                            </div>
-                            <div className="h-1/3 flex justify-center items-center ">
-                                <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
+                                <input
+                                    type="number"
+                                    placeholder='max'
+                                    className='w-64 h-12 outline-none border-2 border-black rounded-md pl-3'
+                                    value={searchPrixMax}
+                                    onChange={(e) => setSearchPrixMax(e.target.value)}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder='min'
+                                    className='w-64 h-12 outline-none border-2 border-black rounded-md pl-3'
+                                    value={searchPrixMin}
+                                    onChange={(e) => setSearchPrixMin(e.target.value)}
+                                />
                             </div>
                         </div>
                     )}
                     {filtreParResto && (
                         <div className='h-full w-10/12 m-auto '>
                             <div className="h-2/3 flex  items-center   ">
-                                <input list='type' className='w-full h-12 outline-none border-2 border-black rounded-md pl-3' placeholder="Nom du restaurant " />
-                                <datalist id='type'>
-                                    {Restaurants.map((x, y) => <option key={y} value={x.nameResto} ></option>)}
-                                </datalist>
+                                <input
+                                    type='text'
+                                    className='w-full h-12 outline-none border-2 border-black rounded-md pl-3'
+                                    placeholder="Nom du restaurant "
+                                    value={searchResto}
+                                    onChange={(e) => setSearchResto(e.target.value)}
+                                />
                             </div>
-                            <div className="h-1/3 flex justify-center items-center ">
-                                <button className=" bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full ">Recherche</button>
-                            </div>
+
                         </div>
                     )}
                 </div>
@@ -225,7 +260,7 @@ export default function Menu() {
                 </div>
             </div>
             <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-                {menuData.map((x, y) =>
+                {getFilteredMenu().map((x, y) =>
                     <div key={y} className="bg-white rounded-xl grid grid-cols-3 shadow-md overflow-hidden  hover:shadow-lg transition duration-300">
                         <div className="h-48 w-48 col-span-1 "  >
                             <Link to={`/detai/${x.id}`}>
@@ -237,14 +272,23 @@ export default function Menu() {
                                 <div>
                                     <div className="flex justify-between items-center">
                                         <h2 className="text-xl font-bold text-gray-800">{x.name}</h2>
-                                        <span className="text-lg font-semibold text-orange-500">${x.prix}</span>
+                                        <span className="text-lg font-semibold text-orange-500">{x.prix} DH</span>
                                     </div>
                                     <p className="text-gray-600 mt-1 text-sm">{x.description.length > 80 ? `${x.description.slice(0, 80)}...` : x.description}</p>
                                     <Link to={`/showRestaurant/${x.restaurant.id}`}><p className="text-sm text-gray-500 mt-1">{x.restaurant.nameResto}</p></Link>
                                     <p className="text-sm text-gray-500 mt-1">{x.category}</p>
                                 </div>
                                 <div className="mt-4 flex justify-end items-center">
-                                    <button onClick={() => addToCart(x)} className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full transition">
+                                    <button
+                                        onClick={(e) => {
+                                            if (currentUser.role === 'client') {
+                                                addToCart(x)
+                                            } else {
+                                                alert("Si vous n'êtes pas un client, vous n'avez pas le droit de passer une commande")
+                                            }
+                                        }}
+                                        className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full transition"
+                                    >
                                         <PiShoppingCartLight className="text-xl" /> Commander
                                     </button>
                                 </div>

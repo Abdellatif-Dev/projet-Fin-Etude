@@ -160,7 +160,7 @@ export default function NavBar() {
                                 {show && (
                                     <div className="bg-black">
                                         <div className="h-10 text-xl text-center">
-                                            <a href="/dashbord">Dashboard</a>
+                                            <a href={user.role==='client'?'DashboardClient':(user.role==='restaurant'?'dashbord':'DashboardAdmin')}>Dashboard</a>
                                         </div>
                                         <div className="h-10 text-xl text-center">
                                             <a href="/logout" onClick={logout}>Logout</a>
@@ -176,12 +176,12 @@ export default function NavBar() {
                         <div className=' h-full p-16 bg-slate-950 bg-opacity-85 w-dvw flex justify-center items-center '>
                             <div className=" mx-10 grid grid-cols-5 z-10 h-full w-full ">
                                 <div className="col-span-3 bg-slate-200 rounded-l-2xl">
-                                    <form onSubmit={handleSubmitLogin}>
-                                        <div className=" flex items-center h-1/5 justify-center">
+                                        <div className=" flex items-center h-2/6 justify-center">
                                             <h1 className=' text-4xl pt-3  font-serif font-medium'>SE CONNECTER</h1>
                                         </div>
+                                    <form onSubmit={handleSubmitLogin} >
 
-                                        <div className="flex items-center h-3/5 justify-center ">
+                                        <div className="flex items-center h-3/6 justify-center ">
                                             <div className='w-full'>
 
                                                 <div className="relative flex mx-10 items-center mt-5 border rounded-2xl bg-white px-3">

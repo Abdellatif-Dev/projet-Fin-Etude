@@ -4,8 +4,10 @@ import Commande from './Commande';
 import Profile from './Profile';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Previsions from './Previsions';
 
 export default function Dashboard() {
+    const [previsions, setPrévisions] = useState(false);
     const [Profil, setProfil] = useState(true);
     const [produits, setPro] = useState(false);
     const [commande, setComm] = useState(false);
@@ -17,8 +19,8 @@ export default function Dashboard() {
         navigate('/');
     };
     console.log(user);
-    
-  
+
+
 
 
     if (user?.role !== 'restaurant') {
@@ -51,8 +53,23 @@ export default function Dashboard() {
                     </div>
                     <div className="flex flex-col items-center">
                         <button
-                            onClick={() => { setProfil(true); setPro(false); setComm(false); }}
-                            className={`w-11/12 border-b-4 font-serif font-bold text-stone-500 hover:scale-105 ${Profil ? 'border-stone-900 text-stone-900' : 'border-stone-500 hover:border-stone-900'}`}
+                            onClick={() => {
+                                if (user.nameResto !== undefined) {
+                                    setProfil(false);
+                                    setPro(false);
+                                    setComm(false);
+                                    setPrévisions(true)
+                                } else {
+                                    alert("Complétez d'abord votre profil du restaurant.");
+                                }
+                            }}
+                            className={`w-11/12 border-b-4 font-serif font-bold text-stone-500 hover:scale-105 ${previsions ? 'border-stone-900 text-stone-900' : 'border-stone-500 hover:border-stone-900'}`}
+                        >
+                            Prévisions de ventes
+                        </button>
+                        <button
+                            onClick={() => { setProfil(true); setPro(false); setComm(false); setPrévisions(false) }}
+                            className={`w-11/12 mt-5 border-b-4 font-serif font-bold text-stone-500 hover:scale-105 ${Profil ? 'border-stone-900 text-stone-900' : 'border-stone-500 hover:border-stone-900'}`}
                         >
                             Profil
                         </button>
@@ -62,6 +79,7 @@ export default function Dashboard() {
                                     setProfil(false);
                                     setPro(true);
                                     setComm(false);
+                                    setPrévisions(false)
                                 } else {
                                     alert("Complétez d'abord votre profil du restaurant.");
                                 }
@@ -76,6 +94,7 @@ export default function Dashboard() {
                                     setProfil(false);
                                     setPro(false);
                                     setComm(true);
+                                    setPrévisions(false)
                                 } else {
                                     alert("Complétez d'abord votre profil du restaurant.");
                                 }
@@ -95,6 +114,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="col-span-4  p-5">
+                {previsions && <Previsions/>}
                 {Profil && <Profile />}
                 {produits && <Produits />}
                 {commande && <Commande />}

@@ -8,40 +8,34 @@ export default function Commande() {
     const [traitement, setTra] = useState(false)
     const [livre, setLiv] = useState(false)
     const [lesCommand, setlesCommand] = useState([])
-    const x = 'en coure'
     const user = useSelector(s => s.Tache.currentUser);
     useEffect(() => {
         showCommande();
     }, []);
-
+    
     const showCommande = async () => {
         try {
             const response = await axios.get(`http://127.0.0.1:8000/api/showCommande/${user.id}`);
-            setlesCommand(response.data);
+            setlesCommand(response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)));
             console.log(response.data);
         } catch (error) {
             console.error('Erreur ', error);
             alert("Erreur");
         }
     };
-    console.log(lesCommand);
     const updateStatus = async (id, status) => {
         try {
             await axios.put(`http://127.0.0.1:8000/api/commande-detail/${id}/status`, {
                 status: status
             });
-            setlesCommand(prev =>
-                prev.map(item =>
-                    item.id === id ? { ...item, status } : item
-                )
-            );
+            await showCommande();
         } catch (error) {
             console.error("Erreur lors de la mise à jour du statut", error);
             alert("Échec de la mise à jour");
         }
     };
-    console.log(lesCommand);
-
+    
+    
 
     return (
         <div className=' w-full h-full px-10 pt-2 '>
@@ -54,56 +48,50 @@ export default function Commande() {
                 </div>
                 {
                     Nouvelle && (
-                    
-
-                            <div className="overflow-x-auto h-[500px]">
-                                <table className="w-full text-sm text-left border-collapse">
-                                    <thead className="sticky top-0 bg-gray-100 text-gray-700 font-semibold">
-                                        <tr>
-                                            <th className="px-4 py-3 w-1/12">Photo</th>
-                                            <th className="px-4 py-3 w-2/12">Nom</th>
-                                            <th className="px-4 py-3 w-4/12">Adresse</th>
-                                            <th className="px-4 py-3 w-1/12 text-center">Quantité</th>
-                                            <th className="px-4 py-3 w-1/12 text-right">Prix</th>
-                                            <th className="px-4 py-3 w-2/12 text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {lesCommand.filter((x) => x.status === 'en attente').map((x, y) => (
-                                            <tr
-                                                key={y}
-                                                className="odd:bg-white even:bg-gray-50 border-t border-gray-200 hover:bg-gray-100 transition"
-                                            >
-                                                <td className="px-4 py-2">
-                                                    <img
-                                                        src={`http://127.0.0.1:8000/storage/${x.menu.image_plate}`}
-                                                        alt="menu"
-                                                        className="w-12 h-12 rounded object-cover shadow"
-                                                    />
-                                                </td>
-                                                <td className="px-4 py-2">{x.menu.name}</td>
-                                                <td className="px-4 py-2 break-words">{x.commande.address}</td>
-                                                <td className="px-4 py-2 text-center">{x.quantity}</td>
-                                                <td className="px-4 py-2 text-right text-nowrap">{x.menu.prix} DH</td>
-                                                <td className="px-4 py-2 text-center ">
-                                                    <div className="flex  justify-center  space-x-4">
+                        <div className="overflow-x-auto h-[500px]">
+                            <table className="w-full text-sm text-left border-collapse">
+                                <thead className="sticky top-0 bg-gray-100 text-gray-700 font-semibold">
+                                    <tr>
+                                        <th className="px-4 py-3 w-1/12">Photo</th>
+                                        <th className="px-4 py-3 w-2/12">Nom</th>
+                                        <th className="px-4 py-3 w-4/12">Adresse</th>
+                                        <th className="px-4 py-3 w-1/12 text-center">Quantité</th>
+                                        <th className="px-4 py-3 w-1/12 text-right">Prix</th>
+                                        <th className="px-4 py-3 w-2/12 text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {lesCommand.filter((x) => x.status === 'en attente').map((x, y) => (
+                                        <tr
+                                            key={y}
+                                            className="odd:bg-white even:bg-gray-50 border-t border-gray-200 hover:bg-gray-100 transition"
+                                        >
+                                            <td className="px-4 py-2">
+                                                <img
+                                                    src={`http://127.0.0.1:8000/storage/${x.menu.image_plate}`}
+                                                    alt="menu"
+                                                    className="w-12 h-12 rounded object-cover shadow"
+                                                />
+                                            </td>
+                                            <td className="px-4 py-2">{x.menu.name}</td>
+                                            <td className="px-4 py-2 break-words">{x.commande.address}</td>
+                                            <td className="px-4 py-2 text-center">{x.quantity}</td>
+                                            <td className="px-4 py-2 text-right text-nowrap">{x.menu.prix} DH</td>
+                                            <td className="px-4 py-2 text-center ">
+                                                <div className="flex  justify-center  space-x-4">
                                                     <button onClick={() => updateStatus(x.id, 'acceptée')} className='bg-green-500 hover:bg-green-600 rounded-md p-1'>
                                                         <AiOutlineCheck className='text-white text-xl' />
                                                     </button>
-
                                                     <button onClick={() => updateStatus(x.id, 'refusée')} className='bg-red-500 hover:bg-red-600 rounded-md p-1'>
                                                         <AiOutlineClose className='text-white text-xl' />
                                                     </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                        ))}
-                                    </tbody>
-                                </table>
-
-                            </div>
-
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     )
                 }
                 {
@@ -138,7 +126,7 @@ export default function Commande() {
                                             <td className="px-4 py-2 text-center">{x.quantity}</td>
                                             <td className="px-4 py-2 text-right text-nowrap">{x.menu.prix} DH</td>
                                             <td className="px-4 py-2 text-center">
-                                                <span className='py-1 px-3 rounded-full text-sm font-medium text-white bg-green-600 '>
+                                                <span onClick={() => updateStatus(x.id, 'livrée')} className='cursor-pointer py-1 px-3 rounded-full text-sm font-medium text-white bg-sky-500 '>
                                                     {x.status}
                                                 </span>
                                             </td>
@@ -147,8 +135,10 @@ export default function Commande() {
                                     ))}
                                 </tbody>
                             </table>
+                            
 
                         </div>
+
 
                     )
                 }

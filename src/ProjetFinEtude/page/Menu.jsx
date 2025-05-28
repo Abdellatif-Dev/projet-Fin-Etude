@@ -92,7 +92,7 @@ export default function Menu() {
             {Affichercommand && command.length > 0 && (
                 <div className="w-96 h-[600px] z-20 bg-white fixed bottom-20 right-5 rounded-md shadow-[0_0px_20px_rgba(0,0,0,0.8)]">
                     <div className="h-1/5  border-b-4 border-red-600 flex justify-center items-center">
-                        <img src="user.png" alt="" className='w-16 h-16 rounded-full' />
+                        <img src={`http://127.0.0.1:8000/storage/${currentUser.image}`} alt="" className='w-16 h-16 rounded-full' />
                         <p>HI, {currentUser.name}</p>
                     </div>
                     <div className="h-3/5 overflow-x-auto scroll-smooth ">

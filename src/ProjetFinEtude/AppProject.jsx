@@ -25,7 +25,7 @@ export default function AppProject() {
     if (storedUser) {
       dispatch(setUser(JSON.parse(storedUser)));
     }
-    setLoading(false); // حتى لو ما فيه مستخدم، نكمل التحميل
+    setLoading(false);
   }, [dispatch]);
 
   if (loading) {

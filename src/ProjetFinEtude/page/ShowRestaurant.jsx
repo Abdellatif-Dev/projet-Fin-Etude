@@ -36,11 +36,23 @@ export default function ShowRestaurant() {
     const user = useSelector(s => s.Tache.currentUser);
 
     useEffect(() => {
-        if (data?.commande_details && Array.isArray(data.commande_details)) {
-            const aCommenté = data.commande_details.some(c => c.commande.user_id === user.id);
-            setCommente(aCommenté);
+        if (!user) return; 
+
+        const estProprietaire = user.id === Number(id); 
+
+        const estAdministrateur = user.role === 'administrateur';
+
+        const aCommenté = data?.commande_details && Array.isArray(data.commande_details)
+            ? data.commande_details.some(c => c.commande.user_id === user.id)
+            : false;
+
+        if (estProprietaire || estAdministrateur || aCommenté) {
+            setCommente(true);
+        } else {
+            setCommente(false);
         }
-    }, [data, user]);
+    }, [data, user, id]);
+
     const handleSubmit = async () => {
         if (comment.trim() === '' || rating === 0) {
             alert("Veuillez écrire un commentaire et donner une note.");
@@ -115,7 +127,7 @@ export default function ShowRestaurant() {
             <div className="mt-10">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Menu</h2>
 
-                <div className="flex overflow-x-auto space-x-4 pb-4 no-scrollbar">
+                <div className="flex justify-center overflow-x-auto space-x-4 pb-4 no-scrollbar">
                     {data?.menus?.map((x, y) => (
                         <div
                             key={y}
@@ -210,9 +222,6 @@ export default function ShowRestaurant() {
                     )}
                 </div>
             </div>
-
-
-
         </div>
 
     )

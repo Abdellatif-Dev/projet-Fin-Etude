@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import emailjs from 'emailjs-com';
 
 const tab = ['img1.png', 'img2.png', 'img3.png'];
 const tab1 = ['vd1.mp4', 'vd2.mp4', 'vd3.mp4'];
@@ -13,6 +14,25 @@ export default function Home() {
 
         return () => clearInterval(interval);
     }, []);
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs.sendForm(
+            'service_czi2ii6',
+            'template_x6injpp',
+            e.target,
+            'ME19I1Un-LLRvqdFo'
+        ).then(
+            (result) => {
+                alert("Message envoyé avec succès !");
+            },
+            (error) => {
+                alert("Erreur lors de l'envoi du message.");
+                console.log(error.text);
+            }
+        );
+    };
 
     return (
         <div>
@@ -72,10 +92,15 @@ export default function Home() {
                     </div>
                     <div className="col-span-4 flex items-center justify-center ">
                         <div className=" w-full h-3/5 mx-20 pt-14 ">
-                            <input type="text" className=' block w-full h-12 pl-5  rounded-3xl' placeholder='Entrez votre nom' />
-                            <input type="text" className=' block w-full mt-10 h-12 pl-5  rounded-3xl' placeholder='Entrez votre E-mail' />
-                            <textarea className=' block w-full mt-10  pl-5  rounded-3xl' rows={7} placeholder='Entrez votre Message'></textarea>
-                            <button className=' border-2 border-yellow-500 rounded-3xl text-2xl py-2 px-4 mt-10 text-white hover:bg-yellow-400 hover:border-white hover:text-black hover:drop-shadow-2xl hover:shadow-yellow-500 hover:shadow-[0_0px_35px_rgba(0,0,0,1)]'>Soumettre</button>
+                            <form onSubmit={sendEmail}>
+                                <input name="title" type="text" className='block w-full h-12 pl-5 rounded-3xl ' placeholder='Sujet' required />
+                                <input name="name" type="text" className='block w-full h-12 pl-5 rounded-3xl mt-10' placeholder='Votre nom' required />
+                                <input name="user_email" type="email" className='block w-full mt-10 h-12 pl-5 rounded-3xl' placeholder='Entrez votre E-mail' required />
+                                <textarea name="message" className='block w-full mt-10 pl-5 rounded-3xl' rows={7} placeholder='Entrez votre Message' required></textarea>
+                                <button type="submit" className='border-2 border-yellow-500 rounded-3xl text-2xl py-2 px-4 mt-10 text-white hover:bg-yellow-400 hover:border-white hover:text-black hover:drop-shadow-2xl hover:shadow-yellow-500 hover:shadow-[0_0px_35px_rgba(0,0,0,1)]'>
+                                    Soumettre
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

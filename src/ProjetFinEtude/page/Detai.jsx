@@ -30,12 +30,31 @@ export default function Detai() {
     }, [id])
     const user = useSelector(s => s.Tache.currentUser);
 
-    useEffect(() => {
-        if (commandes && Array.isArray(commandes)) {
-            const aCommenté = commandes.some(c => c.commande.user_id === user.id);
-            setCommente(aCommenté);
+    console.log(plats);
+    
+useEffect(() => {
+    if (!user) return;
+
+    let peutCommenter = false;
+
+    if (user.role === 'administrateur') {
+        peutCommenter = true;
+    }
+
+    if (plats?.restaurant?.id === user.id) {
+        peutCommenter = true;
+    }
+
+    if (commandes && Array.isArray(commandes)) {
+        const aCommandé = commandes.some(c => c.commande.user_id === user.id);
+        if (aCommandé) {
+            peutCommenter = true;
         }
-    }, [commandes, user]);
+    }
+
+    setCommente(peutCommenter);
+}, [user, commandes, plats]);
+
 
     const handleSubmit = async () => {
         if (comment.trim() === '' || rating === 0) {

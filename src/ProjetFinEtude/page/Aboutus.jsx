@@ -1,6 +1,25 @@
 import React from 'react';
+import emailjs from 'emailjs-com';
 
 export default function AboutUs() {
+     const sendEmail = (e) => {
+            e.preventDefault();
+    
+            emailjs.sendForm(
+                'service_czi2ii6',
+                'template_x6injpp',
+                e.target,
+                'ME19I1Un-LLRvqdFo'
+            ).then(
+                (result) => {
+                    alert("Message envoyé avec succès !");
+                },
+                (error) => {
+                    alert("Erreur lors de l'envoi du message.");
+                    console.log(error.text);
+                }
+            );
+        };
     return (
         <div className="w-full bg-white text-gray-800">
             <section className="relative h-[50vh] w-full">
@@ -33,18 +52,27 @@ export default function AboutUs() {
             </section>
             <section className="bg-slate-900 py-16 px-8 lg:px-20 text-white">
                 <h2 className="text-3xl font-bold text-center text-yellow-400 mb-8">Contactez-nous</h2>
-                <form className="max-w-2xl mx-auto space-y-6">
+                <form onSubmit={sendEmail} className="max-w-2xl mx-auto space-y-6">
                     <input
+                        name='title'
+                        type="text"
+                        placeholder="Sujet"
+                        className="w-full p-3 rounded-lg text-black"
+                    />
+                    <input
+                        name='name'
                         type="text"
                         placeholder="Nom complet"
                         className="w-full p-3 rounded-lg text-black"
                     />
                     <input
+                        name='user_email'
                         type="email"
                         placeholder="Adresse e-mail"
                         className="w-full p-3 rounded-lg text-black"
                     />
                     <textarea
+                        name='message'
                         rows={5}
                         placeholder="Votre message"
                         className="w-full p-3 rounded-lg text-black"
@@ -56,6 +84,7 @@ export default function AboutUs() {
                         Envoyer
                     </button>
                 </form>
+                 
             </section>
 
         </div>

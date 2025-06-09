@@ -12,7 +12,7 @@ export default function DashboardAdmin() {
     const [Restuarants, setRestuarants] = useState(false)
     const [Users, setUsers] = useState()
     const navigate = useNavigate();
-    
+
 
     const showUtilisateurs = async () => {
         try {
@@ -39,10 +39,22 @@ export default function DashboardAdmin() {
         if (window.confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
             try {
                 await axios.delete(`http://127.0.0.1:8000/api/users/${id}`);
-                showUtilisateurs(); // Refresh list
+                showUtilisateurs(); 
             } catch (err) {
                 alert("Erreur lors de la suppression.");
             }
+        }
+    };
+    const handleChangeEtat = async (devoirId) => {
+        try {
+            const responce= await axios.put(`http://127.0.0.1:8000/api/devoirs/${devoirId}`, {
+                etat: 'payé'
+            });
+            alert(responce.data)
+            showUtilisateurs();
+        } catch (error) {
+            console.error("Erreur lors du changement d'état", error);
+            alert("Erreur lors du changement d'état");
         }
     };
     function getStatusColor(status) {
@@ -50,29 +62,11 @@ export default function DashboardAdmin() {
             case 'payé':
                 return 'bg-green-500';
             case 'non payé':
-                return 'bg-red-500';
+                return 'bg-red-500 cursor-pointer';
             default:
                 return 'bg-gray-400';
         }
     }
-
-
-    if (user?.role !== 'client') {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="text-center">
-                    <p className="text-lg font-semibold mb-4">Vous n'êtes pas autorisé à accéder à ce tableau de bord.</p>
-                    <button
-                        onClick={retourn}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-                    >
-                        Page d'accueil
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className='pt-14  bg-slate-100 grid grid-cols-5 '>
             <div className="col-span-1 bg-zinc-200">
@@ -142,11 +136,11 @@ export default function DashboardAdmin() {
                     </div>
                 )}
 
-            
+
                 {Restuarants && (
                     <div className="mt-4 p-6 bg-white rounded-2xl shadow-lg border h-[520px]">
-                        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Liste des Commandes</h2>
-                        
+                        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Liste des Salire</h2>
+
 
                         <div className="overflow-x-auto h-[400px]">
                             <table className="w-full text-sm text-left border-collapse">
@@ -164,29 +158,36 @@ export default function DashboardAdmin() {
                                 <tbody>
                                     {Users?.filter(x => x.role === 'restaurant').map((u, i) =>
                                         u.devoirs.map((d, j) => (
-                                                <tr
-                                                    key={`${i}-${j}`}
-                                                    className="odd:bg-white even:bg-gray-50 border-t border-gray-200 hover:bg-gray-100 transition"
-                                                >
-                                                    <td className="px-4 py-2">
-                                                        <img
-                                                            src={`http://127.0.0.1:8000/storage/${u?.image_resto}`}
-                                                            alt="menu"
-                                                            className="w-12 h-12 rounded object-cover shadow"
-                                                        />
-                                                    </td>
-                                                    <td className="px-4 py-2">{u.name}</td>
-                                                    <td className="px-4 py-2 break-words">{u.nameResto}</td>
-                                                    <td className="px-4 py-2 text-center">{d.mois}</td>
-                                                    <td className="px-4 py-2 text-center">{d.annee}</td>
-                                                    <td className="px-4 py-2 text-right">{d.montant} DH</td>
-                                                    <td className="px-4 py-2 text-center">
-                                                        <span className={`py-1 px-3 rounded-full text-sm font-medium ${getStatusColor(d.etat)}`}>
-                                                            {d.etat}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            ))
+                                            <tr
+                                                key={`${i}-${j}`}
+                                                className="odd:bg-white even:bg-gray-50 border-t border-gray-200 hover:bg-gray-100 transition"
+                                            >
+                                                <td className="px-4 py-2">
+                                                    <img
+                                                        src={`http://127.0.0.1:8000/storage/${u?.image_resto}`}
+                                                        alt="menu"
+                                                        className="w-12 h-12 rounded object-cover shadow"
+                                                    />
+                                                </td>
+                                                <td className="px-4 py-2">{u.name}</td>
+                                                <td className="px-4 py-2 break-words">{u.nameResto}</td>
+                                                <td className="px-4 py-2 text-center">{d.mois}</td>
+                                                <td className="px-4 py-2 text-center">{d.annee}</td>
+                                                <td className="px-4 py-2 text-right">{d.montant} DH</td>
+                                                <td className="px-4 py-2 text-center">
+                                                    <span
+                                                        onClick={() => {
+                                                            if (d.etat === 'non payé') {
+                                                                handleChangeEtat(d.id);
+                                                            }
+                                                        }}
+                                                        className={`py-1 px-3 rounded-full text-sm font-medium ${getStatusColor(d.etat)}`}>
+                                                        {d.etat}
+                                                    </span>
+
+                                                </td>
+                                            </tr>
+                                        ))
                                     )}
                                 </tbody>
                             </table>

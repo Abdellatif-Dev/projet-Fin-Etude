@@ -16,8 +16,8 @@ export default function Produits() {
     const [category, setCat] = useState('')
     const [prix, setPrix] = useState('')
     const [platAModifier, setPlatAModifier] = useState(null);
-    const [recherche, setRecherche] = useState(''); 
-    const dispatch =useDispatch();
+    const [recherche, setRecherche] = useState('');
+    const dispatch = useDispatch();
     const user = useSelector(s => s.Tache.currentUser);
     const AjouterPlate = async (e) => {
         e.preventDefault();
@@ -41,6 +41,11 @@ export default function Produits() {
             console.log('Plat ajouté avec succès:', response.data);
             alert("Plat ajouté avec succès !");
             dispatch(fetchMenuData());
+            setName('')
+            setImg(null)
+            setDesc('')
+            setPrix('')
+            setCat('')
         } catch (error) {
             console.error('Erreur lors de l’ajout:', error);
             alert("Échec de l’ajout.");
@@ -56,7 +61,7 @@ export default function Produits() {
         if (image_plate instanceof File) {
             formData.append('image_plate', image_plate);
         }
-         try {
+        try {
             const response = await axios.post(`http://127.0.0.1:8000/api/menu/${platAModifier.id}?_method=PUT`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -67,9 +72,14 @@ export default function Produits() {
             handelMenu(e);
             setMod(true);
             dispatch(fetchMenuData())
+            setName('')
+            setImg(null)
+            setDesc('')
+            setPrix('')
+            setCat('')
         } catch (error) {
             alert("Échec de la modification.");
-        } 
+        }
     };
     const handelMenu = async (e) => {
         e.preventDefault();
@@ -163,6 +173,7 @@ export default function Produits() {
                                         <label className="block text-gray-700">Nom du plat</label>
                                         <input
                                             type="text"
+                                            value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             className="w-full border rounded-lg p-2 bg-gray-100"
                                             placeholder="Entrez le nom du plat"
@@ -173,6 +184,7 @@ export default function Produits() {
                                         <label className="block text-gray-700">Prix du plat</label>
                                         <input
                                             type="text"
+                                            value={prix}
                                             onChange={(e) => setPrix(e.target.value)}
                                             className="w-full border rounded-lg p-2 bg-gray-100"
                                             placeholder="Entrez le prix"
@@ -183,6 +195,7 @@ export default function Produits() {
                                         <label className="block text-gray-700">categorie du plat</label>
                                         <input
                                             type="text"
+                                            value={category}
                                             onChange={(e) => setCat(e.target.value)}
                                             className="w-full border rounded-lg p-2 bg-gray-100"
                                             placeholder="Entrez le categorie"
@@ -192,6 +205,7 @@ export default function Produits() {
                                     <div>
                                         <label className="block text-gray-700">Description du plat</label>
                                         <textarea
+                                            value={description}
                                             onChange={(e) => setDesc(e.target.value)}
                                             className="w-full border rounded-lg p-2 bg-gray-100" rows="3"
                                             placeholder="Entrez la description"

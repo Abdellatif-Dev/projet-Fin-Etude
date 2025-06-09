@@ -8,6 +8,7 @@ export default function Menu() {
     const [filtreParNom, setFPN] = useState(true)
     const [filtreParPrix, setFPP] = useState(false)
     const [filtreParResto, setFPR] = useState(false)
+    const [filtreParcategory, setFPC] = useState('')
     const [searchNom, setSearchNom] = useState('');
     const [searchPrixMin, setSearchPrixMin] = useState('');
     const [searchPrixMax, setSearchPrixMax] = useState('');
@@ -63,6 +64,12 @@ export default function Menu() {
             return menuData.filter(item =>
                 Restaurants.find(r => r.id === item.restaurant_id && r.nameResto.toLowerCase().includes(searchResto.toLowerCase()))
             );
+        }
+        if (filtreParcategory === 'Tous') {
+            return menuData;
+        }
+        if (filtreParcategory !== '') {
+            return menuData.filter(item => item.category === filtreParcategory);
         }
 
         return menuData;
@@ -150,7 +157,7 @@ export default function Menu() {
                                 <div className="w-2/5 bg-gradient-to-br from-yellow-500 via-amber-600 to-orange-500 p-6 text-white flex flex-col justify-center gap-4">
                                     <h1 className="text-2xl font-semibold font-serif">Nom: <span className="font-normal">{x.name}</span></h1>
                                     <h1 className="text-2xl font-semibold font-serif">Restaurant: <span className="font-normal text-nowrap">{restaurant?.nameResto || 'Inconnu'}</span></h1>
-                                    <h1 className="text-2xl font-semibold font-serif">Prix: <span className="font-normal">{x.price} DH</span></h1>
+                                    <h1 className="text-2xl font-semibold font-serif">Prix: <span className="font-normal">{x.prix} DH</span></h1>
                                 </div>
                                 <div className="w-3/5 h-full">
                                     <img
@@ -171,7 +178,7 @@ export default function Menu() {
                                 <div className="w-2/5 bg-gradient-to-br from-yellow-500 via-amber-600 to-orange-500 p-6 text-white flex flex-col justify-center gap-4">
                                     <h1 className="text-2xl font-semibold font-serif">Nom: <span className="font-normal">{x.name}</span></h1>
                                     <h1 className="text-2xl font-semibold font-serif">Restaurant: <span className="font-normal text-nowrap">{restaurant?.nameResto || 'Inconnu'}</span></h1>
-                                    <h1 className="text-2xl font-semibold font-serif">Prix: <span className="font-normal">{x.price} DH</span></h1>
+                                    <h1 className="text-2xl font-semibold font-serif">Prix: <span className="font-normal">{x.prix} DH</span></h1>
                                 </div>
                                 <div className="w-3/5 h-full">
                                     <img
@@ -249,56 +256,73 @@ export default function Menu() {
                 </div>
             </div>
             <div className='flex justify-center items-center'>
-                <div style={{ 'scrollbar-width': 'none' }} className=" flex w-2/3 m-auto my-6  overflow-scroll  space-x-5 scroll-smooth">
-                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  ALL</button>
-                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  PIZZA</button>
-                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  TACOS</button>
-                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  HAMBURGER</button>
-                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  SOUPE</button>
-                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  SANDWICH</button>
-                    <button className=' bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'>  BOISSONS</button>
+                <div style={{ 'scrollbar-width': 'none' }} className=" flex justify-center w-2/3 m-auto my-6  overflow-scroll  space-x-5 scroll-smooth">
+                    <button
+                        onClick={() => setFPC("Tous")}
+                        className='bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'
+                    >
+                        Tous
+                    </button>
+                    {[...new Set(menuData.map(x => x.category))].map(category => (
+                        <button
+                            key={category}
+                            onClick={() => setFPC(category)}
+                            className='bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full'
+                        >
+                            {category}
+                        </button>
+                    ))}
                 </div>
             </div>
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-                {getFilteredMenu().map((x, y) =>
-                    <div key={y} className="bg-white rounded-xl grid grid-cols-3 shadow-md overflow-hidden  hover:shadow-lg transition duration-300">
-                        <div className="h-48 w-48 col-span-1 "  >
-                            <Link to={`/detai/${x.id}`}>
-                                <img src={`http://127.0.0.1:8000/storage/${x.image_plate}`} alt={x.name} className='w-full h-full object-cover' />
-                            </Link>
-                        </div>
-                        <div className="h-48 col-span-2 "  >
-                            <div className="p-4 flex flex-col justify-between w-full">
-                                <div>
-                                    <div className="flex justify-between items-center">
-                                        <h2 className="text-xl font-bold text-gray-800">{x.name}</h2>
-                                        <span className="text-lg font-semibold text-orange-500">{x.prix} DH</span>
-                                    </div>
-                                    <p className="text-gray-600 mt-1 text-sm">{x.description.length > 80 ? `${x.description.slice(0, 80)}...` : x.description}</p>
-                                    <Link to={`/showRestaurant/${x.restaurant.id}`}><p className="text-sm text-gray-500 mt-1">{x.restaurant.nameResto}</p></Link>
-                                    <p className="text-sm text-gray-500 mt-1">{x.category}</p>
+            <div className="container mx-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 px-4">
+                {getFilteredMenu().map((x, y) => (
+                    <div
+                        key={y}
+                        className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col md:grid md:grid-cols-3"
+                    >
+                        <Link to={`/detai/${x.id}`} className="block md:col-span-1">
+                            <img
+                                src={`http://127.0.0.1:8000/storage/${x.image_plate}`}
+                                alt={x.name}
+                                className="w-full h-full md:h-full object-cover"
+                            />
+                        </Link>
+                        <div className="p-4 md:col-span-2 flex flex-col justify-between">
+                            <div>
+                                <div className="flex justify-between items-center">
+                                    <h2 className="text-xl font-bold text-gray-800">{x.name}</h2>
+                                    <span className="text-lg font-semibold text-orange-500">{x.prix} DH</span>
                                 </div>
-                                <div className="mt-4 flex justify-end items-center">
-                                    <button
-                                        onClick={(e) => {
+                                <p className="text-gray-600 mt-1 text-sm">
+                                    {x.description.length > 80 ? `${x.description.slice(0, 80)}...` : x.description}
+                                </p>
+                                <Link to={`/showRestaurant/${x.restaurant.id}`}>
+                                    <p className="text-sm text-gray-500 mt-1">{x.restaurant.nameResto}</p>
+                                </Link>
+                                <p className="text-sm text-gray-500 mt-1">{x.category}</p>
+                            </div>
+                            <div className="mt-4 flex justify-end items-center">
+                                <button
+                                    onClick={() => {
+                                        if (currentUser) {
                                             if (currentUser.role === 'client') {
-                                                addToCart(x)
+                                                addToCart(x);
                                             } else {
-                                                alert("Si vous n'êtes pas un client, vous n'avez pas le droit de passer une commande")
+                                                alert('Seuls les clients peuvent passer une commande.');
                                             }
-                                        }}
-                                        className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full transition"
-                                    >
-                                        <PiShoppingCartLight className="text-xl" /> Commander
-                                    </button>
-                                </div>
+                                        } else {
+                                            alert('Veuillez vous connecter en tant que client pour passer une commande.');
+                                        }
+                                    }}
+                                    className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full transition"
+                                >
+                                    <PiShoppingCartLight className="text-xl" /> Commander
+                                </button>
                             </div>
                         </div>
                     </div>
-                )}
+                ))}
             </div>
-
-
         </div>
     )
 }

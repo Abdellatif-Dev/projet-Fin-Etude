@@ -5,11 +5,13 @@ import { MdEmail } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCommande } from '../Store/CreteSlice';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function ValiderPaiement() {
     const command = useSelector((s) => s.Tache.Commande);
     const currentUser = useSelector((s) => s.Tache.currentUser);
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const [name, setFullName] = useState(currentUser.name);
     const [email, setEmail] = useState(currentUser.email);
@@ -66,6 +68,7 @@ export default function ValiderPaiement() {
             const res = await axios.post("http://127.0.0.1:8000/api/Commande", payload);
             alert("Données envoyées avec succès !");
             dispatch(clearCommande());
+            navigate('/')
         } catch (error) {
             alert("Erreur d'envoi.");
         }
@@ -77,7 +80,6 @@ export default function ValiderPaiement() {
                 <form onSubmit={handleSubmit}>
                     <h1 className='text-center text-3xl font-serif'>Valider Votre Paiement</h1>
                     <div className="grid grid-cols-5">
-                        {/* === Form Section === */}
                         <div className="col-span-3 px-4">
                             <div className="mt-4 space-y-4">
                                 <div className="relative flex mx-10 items-center mt-5 border rounded-2xl bg-white px-3">
@@ -135,7 +137,7 @@ export default function ValiderPaiement() {
                                 </div>
                             </div>
                         </div>
-<div className={`col-span-2 ${command.length > 0 ? 'max-h-[500px]' : 'h-auto'} bg-white flex flex-col`}>
+                        <div className={`col-span-2 ${command.length > 0 ? 'max-h-[500px]' : 'h-auto'} bg-white flex flex-col`}>
                             <div className="flex-grow overflow-y-auto px-2">
                                 {command.length === 0 ? (
                                     <p className="text-center text-gray-500 mt-10">Aucune commande pour le moment.</p>
